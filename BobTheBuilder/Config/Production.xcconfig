@@ -1,0 +1,26 @@
+// Production Configuration
+// This configuration is used for App Store releases
+
+// App Information
+APP_NAME = Bob the Builder
+APP_BUNDLE_ID = com.bobthebuilder.app
+APP_VERSION = 0.1.0
+BUILD_NUMBER = 1
+
+// API Configuration
+API_BASE_URL = https:/$()/api.bobthebuilder.com
+API_TIMEOUT = 30.0
+
+// Feature Flags
+ENABLE_DEBUG_LOGGING = NO
+ENABLE_ANALYTICS = YES
+ENABLE_CRASH_REPORTING = YES
+
+// Build Settings
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = RELEASE PRODUCTION
+GCC_PREPROCESSOR_DEFINITIONS = PRODUCTION=1
+
+// Code Signing
+CODE_SIGN_IDENTITY = iPhone Distribution
+DEVELOPMENT_TEAM =
+PROVISIONING_PROFILE_SPECIFIER =

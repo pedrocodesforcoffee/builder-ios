@@ -1,0 +1,26 @@
+// Development Configuration
+// This configuration is used for local development and debugging
+
+// App Information
+APP_NAME = Bob Dev
+APP_BUNDLE_ID = com.bobthebuilder.app.dev
+APP_VERSION = 0.1.0
+BUILD_NUMBER = 1
+
+// API Configuration
+API_BASE_URL = http:/$()/localhost:3000/api
+API_TIMEOUT = 30.0
+
+// Feature Flags
+ENABLE_DEBUG_LOGGING = YES
+ENABLE_ANALYTICS = NO
+ENABLE_CRASH_REPORTING = NO
+
+// Build Settings
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG DEV
+GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 DEV=1
+
+// Code Signing
+CODE_SIGN_IDENTITY = iPhone Developer
+DEVELOPMENT_TEAM =
+PROVISIONING_PROFILE_SPECIFIER =

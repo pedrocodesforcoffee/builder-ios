@@ -1,0 +1,127 @@
+# Fastfile for Builder iOS
+
+default_platform(:ios)
+
+platform :ios do
+  # Description of available lanes
+
+  desc "Run all tests"
+  lane :test do
+    run_tests(
+      workspace: "BobTheBuilder.xcworkspace",
+      scheme: "BobTheBuilder",
+      device: "iPhone 15",
+      clean: true
+    )
+  end
+
+  desc "Build the app for development"
+  lane :build_dev do
+    build_app(
+      workspace: "BobTheBuilder.xcworkspace",
+      scheme: "BobTheBuilder",
+      configuration: "Debug",
+      export_method: "development",
+      clean: true
+    )
+  end
+
+  desc "Build and upload to TestFlight"
+  lane :beta do
+    # Ensure we're on main branch
+    ensure_git_branch(branch: "main")
+
+    # Increment build number
+    increment_build_number(
+      build_number: latest_testflight_build_number + 1
+    )
+
+    # Build the app
+    build_app(
+      workspace: "BobTheBuilder.xcworkspace",
+      scheme: "BobTheBuilder",
+      configuration: "Release",
+      export_method: "app-store",
+      clean: true
+    )
+
+    # Upload to TestFlight
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true
+    )
+
+    # Commit build number change
+    commit_version_bump(
+      message: "Bump build number to #{lane_context[SharedValues::BUILD_NUMBER]}"
+    )
+
+    # Tag the release
+    add_git_tag(
+      tag: "testflight/#{lane_context[SharedValues::BUILD_NUMBER]}"
+    )
+  end
+
+  desc "Deploy to App Store"
+  lane :release do
+    # Ensure we're on main branch
+    ensure_git_branch(branch: "main")
+
+    # Increment version if needed
+    # increment_version_number
+
+    # Increment build number
+    increment_build_number
+
+    # Build the app
+    build_app(
+      workspace: "BobTheBuilder.xcworkspace",
+      scheme: "BobTheBuilder",
+      configuration: "Release",
+      export_method: "app-store",
+      clean: true
+    )
+
+    # Upload to App Store
+    upload_to_app_store(
+      force: true,
+      submit_for_review: false  # Set to true for automatic submission
+    )
+
+    # Commit changes
+    commit_version_bump(
+      message: "Release version #{lane_context[SharedValues::VERSION_NUMBER]}"
+    )
+
+    # Tag the release
+    add_git_tag
+  end
+
+  desc "Take screenshots for App Store"
+  lane :screenshots do
+    snapshot
+  end
+
+  desc "Generate code coverage report"
+  lane :coverage do
+    run_tests(
+      workspace: "BobTheBuilder.xcworkspace",
+      scheme: "BobTheBuilder",
+      device: "iPhone 15",
+      code_coverage: true
+    )
+
+    slather(
+      proj: "BobTheBuilder.xcodeproj",
+      workspace: "BobTheBuilder.xcworkspace",
+      scheme: "BobTheBuilder",
+      output_directory: "coverage",
+      html: true
+    )
+  end
+
+  # Error handling
+  error do |lane, exception|
+    UI.error("Error in lane #{lane}: #{exception}")
+    # Send notification or log error
+  end
+end

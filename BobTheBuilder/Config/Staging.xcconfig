@@ -1,0 +1,26 @@
+// Staging Configuration
+// This configuration is used for internal testing and QA
+
+// App Information
+APP_NAME = Bob Staging
+APP_BUNDLE_ID = com.bobthebuilder.app.staging
+APP_VERSION = 0.1.0
+BUILD_NUMBER = 1
+
+// API Configuration
+API_BASE_URL = https:/$()/staging-api.bobthebuilder.com
+API_TIMEOUT = 30.0
+
+// Feature Flags
+ENABLE_DEBUG_LOGGING = YES
+ENABLE_ANALYTICS = YES
+ENABLE_CRASH_REPORTING = YES
+
+// Build Settings
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = STAGING
+GCC_PREPROCESSOR_DEFINITIONS = STAGING=1
+
+// Code Signing
+CODE_SIGN_IDENTITY = iPhone Distribution
+DEVELOPMENT_TEAM =
+PROVISIONING_PROFILE_SPECIFIER =

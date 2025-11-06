@@ -1,0 +1,16 @@
+# Appfile for Builder iOS
+
+# Your Apple ID
+apple_id("admin@bobthebuilder.com")
+
+# App Identifier
+app_identifier("com.bobthebuilder.app")
+
+# Team ID (find in Apple Developer portal)
+team_id("TEAMID")
+
+# iTunes Connect Team ID (if different from team_id)
+# itunes_connect_id("TEAM_ID")
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
