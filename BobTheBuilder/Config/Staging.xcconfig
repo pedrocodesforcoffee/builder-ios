@@ -8,8 +8,12 @@ APP_VERSION = 0.1.0
 BUILD_NUMBER = 1
 
 // API Configuration
-API_BASE_URL = https:/$()/staging-api.bobthebuilder.com
+API_BASE_URL = https:/$()/api-stage.bobthebuilder.com
 API_TIMEOUT = 30.0
+
+// Environment
+ENVIRONMENT = Staging
+APP_ICON = AppIcon-Stage
 
 // Feature Flags
 ENABLE_DEBUG_LOGGING = YES

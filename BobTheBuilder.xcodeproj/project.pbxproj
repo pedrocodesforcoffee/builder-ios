@@ -9,7 +9,10 @@
 /* Begin PBXBuildFile section */
 		1B95C7E5617ED368C4BC98C5 /* BobTheBuilderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EFAFB661E0C07C387F59C3D /* BobTheBuilderUITests.swift */; };
 		31662601346F89F763025DC0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21D05BB8A21B11D73DFE1F42 /* Assets.xcassets */; };
+		339BE5477E3A5861A68DDDE6 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7582B9A5D6420CC476CFB03A /* AppConfiguration.swift */; };
 		5EAEFECE027AA2F5EEB5C12F /* BobTheBuilderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF63CE6A8045DFE9346E0D31 /* BobTheBuilderApp.swift */; };
+		63427C62EB2D9F2F9FAF7CBF /* EnvironmentBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9416E530BCB89D7043740AE3 /* EnvironmentBadge.swift */; };
+		69B98CDC52623D8086536DA7 /* ConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF65EC70455C3A793464DE /* ConfigurationTests.swift */; };
 		7E8848DCEB3528A488A1CD67 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE606EA915D59A9132AE3DC /* ContentView.swift */; };
 		864F85F6297982B6B1476740 /* BobTheBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CBAA5612263A37EBB6CD00 /* BobTheBuilderTests.swift */; };
 		FF8DA714374A583ABF5A8A31 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F8AC45048477C6E027B52D8 /* Localizable.strings */; };
@@ -34,6 +37,7 @@
 
 /* Begin PBXFileReference section */
 		00CBAA5612263A37EBB6CD00 /* BobTheBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobTheBuilderTests.swift; sourceTree = "<group>"; };
+		07BF65EC70455C3A793464DE /* ConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationTests.swift; sourceTree = "<group>"; };
 		21D05BB8A21B11D73DFE1F42 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2F8AC45048477C6E027B52D8 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		41F1855E8CAFDCD36F8A1166 /* BobTheBuilder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BobTheBuilder.entitlements; sourceTree = "<group>"; };
@@ -41,6 +45,8 @@
 		6920B372CADCDADB0C002181 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
 		6E68C909D635408FC01A91B1 /* BobTheBuilderTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = BobTheBuilderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		74A9C60A0B57BC4A43E71419 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
+		7582B9A5D6420CC476CFB03A /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		9416E530BCB89D7043740AE3 /* EnvironmentBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentBadge.swift; sourceTree = "<group>"; };
 		963760C24FD6A1DA963A9350 /* BobTheBuilder.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BobTheBuilder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EFAFB661E0C07C387F59C3D /* BobTheBuilderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobTheBuilderUITests.swift; sourceTree = "<group>"; };
 		B62EF9E5E14CF56C045590D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -50,6 +56,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		04BD14A51562910E33BED16A /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				ABBC379C35773BFF01CD83A0 /* Configuration */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		332EE353D377F9CA659C0062 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -69,6 +83,14 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		4F5C508BA979F50434787A59 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				B5EC0D691AB22218774A869F /* Components */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		5703BE02AF7D5C0415EAD7EF /* Config */ = {
 			isa = PBXGroup;
 			children = (
@@ -84,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				00CBAA5612263A37EBB6CD00 /* BobTheBuilderTests.swift */,
+				07BF65EC70455C3A793464DE /* ConfigurationTests.swift */,
 			);
 			path = BobTheBuilderTests;
 			sourceTree = "<group>";
@@ -94,6 +117,22 @@
 				9EFAFB661E0C07C387F59C3D /* BobTheBuilderUITests.swift */,
 			);
 			path = BobTheBuilderUITests;
+			sourceTree = "<group>";
+		};
+		ABBC379C35773BFF01CD83A0 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				7582B9A5D6420CC476CFB03A /* AppConfiguration.swift */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		B5EC0D691AB22218774A869F /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9416E530BCB89D7043740AE3 /* EnvironmentBadge.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		BBA40570FD6A11700181ECC6 /* Resources */ = {
@@ -111,7 +150,9 @@
 				41F1855E8CAFDCD36F8A1166 /* BobTheBuilder.entitlements */,
 				EDE606EA915D59A9132AE3DC /* ContentView.swift */,
 				399921365FF060AB4DC4D642 /* App */,
+				04BD14A51562910E33BED16A /* Core */,
 				BBA40570FD6A11700181ECC6 /* Resources */,
+				4F5C508BA979F50434787A59 /* Shared */,
 			);
 			path = BobTheBuilder;
 			sourceTree = "<group>";
@@ -127,25 +168,11 @@
 			);
 			sourceTree = "<group>";
 		};
-		"TEMP_2266DF6A-706E-48B4-8E94-E055DBDDAA1F" /* Shared */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Shared;
-			sourceTree = "<group>";
-		};
-		"TEMP_28DCE103-7AE8-46B3-BF42-B7432833D525" /* Features */ = {
+		"TEMP_7D0CFE02-D1EB-49CC-B8D9-671387283F06" /* Features */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = Features;
-			sourceTree = "<group>";
-		};
-		"TEMP_C31DBDFE-B1F3-4243-859E-36DBA879324F" /* Core */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,8 +305,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				339BE5477E3A5861A68DDDE6 /* AppConfiguration.swift in Sources */,
 				5EAEFECE027AA2F5EEB5C12F /* BobTheBuilderApp.swift in Sources */,
 				7E8848DCEB3528A488A1CD67 /* ContentView.swift in Sources */,
+				63427C62EB2D9F2F9FAF7CBF /* EnvironmentBadge.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,6 +325,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				864F85F6297982B6B1476740 /* BobTheBuilderTests.swift in Sources */,
+				69B98CDC52623D8086536DA7 /* ConfigurationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,10 +345,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0C5EB44BF494068458CE7157 /* Debug */ = {
+		0881151B9C81B2D49F93CCE5 /* Release-Dev */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON)";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BobTheBuilder/BobTheBuilder.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -326,114 +356,13 @@
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app;
-				PRODUCT_NAME = BobTheBuilder;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
+				PRODUCT_NAME = "$(APP_NAME)";
 				SWIFT_VERSION = 5.5;
 			};
-			name = Debug;
+			name = "Release-Dev";
 		};
-		1034EB8E475BDB9C728F13B8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
-				SWIFT_VERSION = 5.5;
-				TEST_TARGET_NAME = BobTheBuilder;
-			};
-			name = Release;
-		};
-		18A226C5EC00887673A8BFE3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.tests;
-				SWIFT_VERSION = 5.5;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
-			};
-			name = Debug;
-		};
-		2021F786BAEE17BE24C12077 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6920B372CADCDADB0C002181 /* Production.xcconfig */;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.1.0;
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.5;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		3B62CDB61E5EB2DDD83EB083 /* Staging */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = BobTheBuilder/BobTheBuilder.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app;
-				PRODUCT_NAME = BobTheBuilder;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = STAGING;
-				SWIFT_VERSION = 5.5;
-			};
-			name = Staging;
-		};
-		484644DC6A95DFEFCCD33E21 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = BobTheBuilder/BobTheBuilder.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app;
-				PRODUCT_NAME = BobTheBuilder;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = RELEASE;
-				SWIFT_VERSION = 5.5;
-			};
-			name = Release;
-		};
-		5A19162F1A5DBAA3848A7D80 /* Staging */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.tests;
-				SWIFT_VERSION = 5.5;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
-			};
-			name = Staging;
-		};
-		B9FD70EF51CA405635199D3D /* Staging */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
-				SWIFT_VERSION = 5.5;
-				TEST_TARGET_NAME = BobTheBuilder;
-			};
-			name = Staging;
-		};
-		C4F45E7D2230A806A273FC34 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
-				SWIFT_VERSION = 5.5;
-				TEST_TARGET_NAME = BobTheBuilder;
-			};
-			name = Debug;
-		};
-		D44AC25F0FDB93FC2EE7E068 /* Staging */ = {
+		0DE067595E00B7086CB08661 /* Release-Stage */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D3B9562298046D145D629CEF /* Staging.xcconfig */;
 			buildSettings = {
@@ -445,9 +374,9 @@
 				SWIFT_VERSION = 5.5;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = "Release-Stage";
 		};
-		D5FDA45DD1289E48187ADCBF /* Release */ = {
+		18C68BEA9AE3AE57E4BA1478 /* Debug-Stage */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -455,9 +384,94 @@
 				SWIFT_VERSION = 5.5;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
 			};
-			name = Release;
+			name = "Debug-Stage";
 		};
-		FCA43E9B413285192BA3ED33 /* Debug */ = {
+		1D3CCE665BCB211FF1445ED7 /* Release-Stage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
+				SWIFT_VERSION = 5.5;
+				TEST_TARGET_NAME = BobTheBuilder;
+			};
+			name = "Release-Stage";
+		};
+		3B363DA8F314B9F306B440ED /* Release-Prod */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6920B372CADCDADB0C002181 /* Production.xcconfig */;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.1.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.5;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Release-Prod";
+		};
+		5F17CEF56A73C2F18E2BD0F6 /* Debug-Stage */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D3B9562298046D145D629CEF /* Staging.xcconfig */;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.1.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.5;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-Stage";
+		};
+		60CB90A8FF1394232A8F2BDF /* Debug-Stage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON)";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BobTheBuilder/BobTheBuilder.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
+				PRODUCT_NAME = "$(APP_NAME)";
+				SWIFT_VERSION = 5.5;
+			};
+			name = "Debug-Stage";
+		};
+		63791CEED52BCE301C8DFCBA /* Debug-Prod */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.tests;
+				SWIFT_VERSION = 5.5;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
+			};
+			name = "Debug-Prod";
+		};
+		68E24E2FAF9053EAF48F2897 /* Debug-Prod */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
+				SWIFT_VERSION = 5.5;
+				TEST_TARGET_NAME = BobTheBuilder;
+			};
+			name = "Debug-Prod";
+		};
+		6ABDDD779FA108CE4C15FF14 /* Release-Prod */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
+				SWIFT_VERSION = 5.5;
+				TEST_TARGET_NAME = BobTheBuilder;
+			};
+			name = "Release-Prod";
+		};
+		79DB1C12CD14B93D05B15236 /* Debug-Dev */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 74A9C60A0B57BC4A43E71419 /* Development.xcconfig */;
 			buildSettings = {
@@ -469,7 +483,173 @@
 				SWIFT_VERSION = 5.5;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Debug;
+			name = "Debug-Dev";
+		};
+		91A3BE9B75F7C94F1FF0A30A /* Debug-Dev */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON)";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BobTheBuilder/BobTheBuilder.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
+				PRODUCT_NAME = "$(APP_NAME)";
+				SWIFT_VERSION = 5.5;
+			};
+			name = "Debug-Dev";
+		};
+		B0D9F4582DB67080E315A6C1 /* Release-Stage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON)";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BobTheBuilder/BobTheBuilder.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
+				PRODUCT_NAME = "$(APP_NAME)";
+				SWIFT_VERSION = 5.5;
+			};
+			name = "Release-Stage";
+		};
+		B6630D9BA64E0B4CCF70177F /* Debug-Dev */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.tests;
+				SWIFT_VERSION = 5.5;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
+			};
+			name = "Debug-Dev";
+		};
+		B820E34187F1EA11569D5514 /* Debug-Prod */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON)";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BobTheBuilder/BobTheBuilder.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
+				PRODUCT_NAME = "$(APP_NAME)";
+				SWIFT_VERSION = 5.5;
+			};
+			name = "Debug-Prod";
+		};
+		BBC16AE3F3274984F71EDDBF /* Release-Dev */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.tests;
+				SWIFT_VERSION = 5.5;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
+			};
+			name = "Release-Dev";
+		};
+		C006EFBB68B0A1DF6F142EC3 /* Release-Dev */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
+				SWIFT_VERSION = 5.5;
+				TEST_TARGET_NAME = BobTheBuilder;
+			};
+			name = "Release-Dev";
+		};
+		C1900EB4EDE350AB7B40725E /* Debug-Dev */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
+				SWIFT_VERSION = 5.5;
+				TEST_TARGET_NAME = BobTheBuilder;
+			};
+			name = "Debug-Dev";
+		};
+		C9C1702520968E8734355576 /* Debug-Stage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
+				SWIFT_VERSION = 5.5;
+				TEST_TARGET_NAME = BobTheBuilder;
+			};
+			name = "Debug-Stage";
+		};
+		C9CEB25F0BB337F35EE37954 /* Release-Stage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.tests;
+				SWIFT_VERSION = 5.5;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
+			};
+			name = "Release-Stage";
+		};
+		D42FCF3032097679C580DC4A /* Release-Prod */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APP_ICON)";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BobTheBuilder/BobTheBuilder.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
+				PRODUCT_NAME = "$(APP_NAME)";
+				SWIFT_VERSION = 5.5;
+			};
+			name = "Release-Prod";
+		};
+		D8C9A894EE9AD8BCEBD2EC46 /* Release-Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 74A9C60A0B57BC4A43E71419 /* Development.xcconfig */;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.1.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.5;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Release-Dev";
+		};
+		DB64B56F1108F5B76B0A8A16 /* Release-Prod */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.tests;
+				SWIFT_VERSION = 5.5;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
+			};
+			name = "Release-Prod";
+		};
+		E8DAA394B013D2B9B54C31E5 /* Debug-Prod */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6920B372CADCDADB0C002181 /* Production.xcconfig */;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.1.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.5;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-Prod";
 		};
 /* End XCBuildConfiguration section */
 
@@ -477,42 +657,54 @@
 		5C91E4AE8D89BCFF3513456A /* Build configuration list for PBXNativeTarget "BobTheBuilderTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				18A226C5EC00887673A8BFE3 /* Debug */,
-				D5FDA45DD1289E48187ADCBF /* Release */,
-				5A19162F1A5DBAA3848A7D80 /* Staging */,
+				B6630D9BA64E0B4CCF70177F /* Debug-Dev */,
+				63791CEED52BCE301C8DFCBA /* Debug-Prod */,
+				18C68BEA9AE3AE57E4BA1478 /* Debug-Stage */,
+				BBC16AE3F3274984F71EDDBF /* Release-Dev */,
+				DB64B56F1108F5B76B0A8A16 /* Release-Prod */,
+				C9CEB25F0BB337F35EE37954 /* Release-Stage */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = "Debug-Dev";
 		};
 		D40BAB08FDC9B1EC5F3605A7 /* Build configuration list for PBXNativeTarget "BobTheBuilder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0C5EB44BF494068458CE7157 /* Debug */,
-				484644DC6A95DFEFCCD33E21 /* Release */,
-				3B62CDB61E5EB2DDD83EB083 /* Staging */,
+				91A3BE9B75F7C94F1FF0A30A /* Debug-Dev */,
+				B820E34187F1EA11569D5514 /* Debug-Prod */,
+				60CB90A8FF1394232A8F2BDF /* Debug-Stage */,
+				0881151B9C81B2D49F93CCE5 /* Release-Dev */,
+				D42FCF3032097679C580DC4A /* Release-Prod */,
+				B0D9F4582DB67080E315A6C1 /* Release-Stage */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = "Debug-Dev";
 		};
 		D70C81939FB2916E84C39577 /* Build configuration list for PBXNativeTarget "BobTheBuilderUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C4F45E7D2230A806A273FC34 /* Debug */,
-				1034EB8E475BDB9C728F13B8 /* Release */,
-				B9FD70EF51CA405635199D3D /* Staging */,
+				C1900EB4EDE350AB7B40725E /* Debug-Dev */,
+				68E24E2FAF9053EAF48F2897 /* Debug-Prod */,
+				C9C1702520968E8734355576 /* Debug-Stage */,
+				C006EFBB68B0A1DF6F142EC3 /* Release-Dev */,
+				6ABDDD779FA108CE4C15FF14 /* Release-Prod */,
+				1D3CCE665BCB211FF1445ED7 /* Release-Stage */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = "Debug-Dev";
 		};
 		FF29D55E1A2AAA3C17318A68 /* Build configuration list for PBXProject "BobTheBuilder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FCA43E9B413285192BA3ED33 /* Debug */,
-				2021F786BAEE17BE24C12077 /* Release */,
-				D44AC25F0FDB93FC2EE7E068 /* Staging */,
+				79DB1C12CD14B93D05B15236 /* Debug-Dev */,
+				E8DAA394B013D2B9B54C31E5 /* Debug-Prod */,
+				5F17CEF56A73C2F18E2BD0F6 /* Debug-Stage */,
+				D8C9A894EE9AD8BCEBD2EC46 /* Release-Dev */,
+				3B363DA8F314B9F306B440ED /* Release-Prod */,
+				0DE067595E00B7086CB08661 /* Release-Stage */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = "Debug-Dev";
 		};
 /* End XCConfigurationList section */
 	};

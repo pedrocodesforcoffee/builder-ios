@@ -56,23 +56,66 @@ open BobTheBuilder.xcodeproj
 
 ## Build Configurations
 
-### Development
+The app supports three environments with dedicated Xcode schemes:
+
+### Development (BobTheBuilder-Dev)
 - **Bundle ID:** com.bobthebuilder.app.dev
-- **API:** http://localhost:3000/api
+- **API:** https://api-dev.bobthebuilder.com
 - **Purpose:** Local development and debugging
 - **Certificate:** Development
+- **App Name:** Bob Dev
+- **Environment Badge:** Orange "DEV" badge
+- **Configurations:** Debug-Dev, Release-Dev
 
-### Staging
+### Staging (BobTheBuilder-Stage)
 - **Bundle ID:** com.bobthebuilder.app.staging
-- **API:** https://staging-api.bobthebuilder.com
+- **API:** https://api-stage.bobthebuilder.com
 - **Purpose:** Internal testing and QA
 - **Certificate:** Distribution (Ad Hoc or TestFlight)
+- **App Name:** Bob Staging
+- **Environment Badge:** Blue "STAGE" badge
+- **Configurations:** Debug-Stage, Release-Stage
 
-### Production
+### Production (BobTheBuilder-Prod)
 - **Bundle ID:** com.bobthebuilder.app
 - **API:** https://api.bobthebuilder.com
 - **Purpose:** App Store release
 - **Certificate:** Distribution (App Store)
+- **App Name:** Bob the Builder
+- **Environment Badge:** None (clean UI)
+- **Configurations:** Debug-Prod, Release-Prod
+
+### Switching Environments
+
+In Xcode, click the scheme selector (next to device selector) and choose:
+- **BobTheBuilder-Dev** for development
+- **BobTheBuilder-Stage** for staging
+- **BobTheBuilder-Prod** for production
+
+### Environment Indicators
+
+Non-production builds display a colored badge:
+- Dev: Orange "DEV" badge at top of screen
+- Stage: Blue "STAGE" badge at top of screen
+- Prod: No badge (clean production UI)
+
+The main screen also displays:
+- Current environment name
+- API base URL
+- App version and build number
+- Debug build indicator
+
+### Configuration Files
+
+Environment settings are in `.xcconfig` files:
+- `BobTheBuilder/Config/Development.xcconfig`
+- `BobTheBuilder/Config/Staging.xcconfig`
+- `BobTheBuilder/Config/Production.xcconfig`
+
+To modify environment settings, edit these files and regenerate:
+```bash
+xcodegen generate
+```
 
 ---
 

@@ -11,6 +11,10 @@ BUILD_NUMBER = 1
 API_BASE_URL = https:/$()/api.bobthebuilder.com
 API_TIMEOUT = 30.0
 
+// Environment
+ENVIRONMENT = Production
+APP_ICON = AppIcon
+
 // Feature Flags
 ENABLE_DEBUG_LOGGING = NO
 ENABLE_ANALYTICS = YES

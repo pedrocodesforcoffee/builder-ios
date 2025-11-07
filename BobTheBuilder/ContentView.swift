@@ -9,19 +9,15 @@
 import SwiftUI
 
 struct ContentView: View {
-
-    // Get app version from Bundle
-    private var appVersion: String {
-        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
-    }
-
-    private var buildNumber: String {
-        Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
-    }
+    let configuration = AppConfiguration.shared
 
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
+                EnvironmentBadge()
+
+                Spacer()
+
                 Image(systemName: "hammer.fill")
                     .font(.system(size: 80))
                     .foregroundColor(.blue)
@@ -31,19 +27,24 @@ struct ContentView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
 
-                Text("Version \(appVersion) (\(buildNumber))")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-
-                Text("Environment: TBD")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .padding(.top, 40)
+                VStack(alignment: .leading, spacing: 10) {
+                    Label("Environment: \(configuration.environment.rawValue)", systemImage: "server.rack")
+                    Label("API: \(configuration.apiBaseURL)", systemImage: "network")
+                    Label("Version: \(configuration.appVersion) (\(configuration.buildNumber))", systemImage: "info.circle")
+                    if configuration.isDebugBuild {
+                        Label("Debug Build", systemImage: "ant.fill")
+                            .foregroundColor(.orange)
+                    }
+                }
+                .font(.footnote)
+                .padding()
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(10)
 
                 Spacer()
             }
             .padding()
-            .navigationTitle("Bob the Builder")
+            .navigationTitle(configuration.appName)
         }
     }
 }
