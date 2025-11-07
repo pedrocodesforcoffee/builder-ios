@@ -4,7 +4,8 @@ options:
   deploymentTarget:
     iOS: "15.0"
   developmentLanguage: en
-  xcodeVersion: "15.0"
+  xcodeVersion: "13.2"
+  xcodeGenCompatibleVersion: "13.2"
 
 settings:
   base:

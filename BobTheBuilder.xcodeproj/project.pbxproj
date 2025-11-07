@@ -127,25 +127,25 @@
 			);
 			sourceTree = "<group>";
 		};
-		"TEMP_5FB2E47B-29F4-47C3-B6ED-DAC4A77E0257" /* Shared */ = {
+		"TEMP_0D2CD213-2906-4E51-93E7-B883E11D2A76" /* Features */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		"TEMP_11E83166-7C9A-4FC5-9FAA-E0752A3C19C2" /* Shared */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = Shared;
 			sourceTree = "<group>";
 		};
-		"TEMP_BCAA5E8B-DA60-45D6-9B19-826D6D611163" /* Core */ = {
+		"TEMP_F71CC10E-0FE1-4DFB-87F4-048C15F4BC36" /* Core */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = Core;
-			sourceTree = "<group>";
-		};
-		"TEMP_D13F13D7-942B-4460-B04D-E7D7FBF98E52" /* Features */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Features;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -213,7 +213,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					07FB0CF7E081E07C3DC84E90 = {
 						DevelopmentTeam = "";

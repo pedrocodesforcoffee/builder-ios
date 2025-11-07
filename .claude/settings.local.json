@@ -9,7 +9,8 @@
       "Bash(unzip:*)",
       "Bash(~/.local/bin/xcodegen generate:*)",
       "Bash(xcodebuild:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
