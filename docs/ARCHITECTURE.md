@@ -814,3 +814,356 @@ let service = ProjectService(apiClient: mockClient)
 - Handle specific APIError cases appropriately
 - Set reasonable timeouts for requests
 - Configure retry limits based on operation criticality
+
+## Navigation Architecture
+
+### Overview
+
+The navigation system uses SwiftUI's NavigationStack (iOS 16+) with fallback support for iOS 15, providing type-safe navigation with deep linking support. The architecture separates navigation concerns using the Coordinator pattern for app-level state management.
+
+### Key Components
+
+#### 1. NavigationDestination
+
+Type-safe enum representing all possible destinations in the app:
+
+```swift
+enum NavigationDestination: Hashable, Codable {
+    case projectDetail(projectId: String)
+    case rfiDetail(rfiId: String)
+    case createProject
+    case createRFI(projectId: String)
+    case profile
+    case settings
+    case about
+}
+```
+
+Benefits:
+- **Type-safe**: Compiler ensures correct parameters
+- **Codable**: Supports state restoration
+- **Hashable**: Works with NavigationPath
+- **Identifiable**: Unique ID for each destination
+
+#### 2. NavigationPathManager
+
+Manages navigation paths for each tab:
+
+```swift
+@MainActor
+class NavigationPathManager: ObservableObject {
+    @Published var projectsPath = NavigationPath()
+    @Published var rfisPath = NavigationPath()
+    @Published var settingsPath = NavigationPath()
+    @Published var selectedTab: TabItem = .projects
+
+    func navigate(to destination: NavigationDestination, in tab: TabItem?)
+    func popToRoot(in tab: TabItem?)
+    func pop(in tab: TabItem?)
+    func reset()
+}
+```
+
+Key features:
+- **Separate paths per tab**: Each tab maintains its own navigation stack
+- **Tab switching**: Optionally switch to a tab when navigating
+- **Singleton pattern**: Shared instance accessible throughout the app
+- **MainActor isolated**: Ensures UI updates on main thread
+
+Usage:
+```swift
+// Navigate to project detail in projects tab
+navigationManager.navigate(to: .projectDetail(projectId: "123"), in: .projects)
+
+// Navigate in current tab
+navigationManager.navigate(to: .createRFI(projectId: "456"))
+
+// Pop back one level
+navigationManager.pop()
+
+// Return to tab root
+navigationManager.popToRoot(in: .projects)
+```
+
+#### 3. AppCoordinator
+
+Manages app-wide state and flow:
+
+```swift
+@MainActor
+final class AppCoordinator: ObservableObject {
+    @Published var isAuthenticated = false
+    @Published var isLoading = true
+    @Published var showOnboarding = false
+    @Published var appError: AppError?
+
+    func completeOnboarding()
+    func login()
+    func logout()
+    func handleDeepLink(_ url: URL)
+}
+```
+
+Responsibilities:
+- **Authentication state**: Tracks user login status
+- **Onboarding flow**: Manages first-time user experience
+- **Loading states**: Controls app initialization
+- **Deep linking**: Routes incoming URLs to correct destinations
+- **Error handling**: App-wide error presentation
+
+State flow:
+```
+Launch → Loading → (Onboarding → Login) → Main App
+                                     ↓
+                                  Logout → Login
+```
+
+#### 4. TabItem
+
+Defines the three main tabs:
+
+```swift
+enum TabItem: String, CaseIterable {
+    case projects = "Projects"
+    case rfis = "RFIs"
+    case settings = "Settings"
+
+    var systemImage: String { /* SF Symbol name */ }
+    var badge: Int? { /* Optional badge count */ }
+}
+```
+
+#### 5. MainTabView
+
+Root view of the authenticated app:
+
+```swift
+struct MainTabView: View {
+    @StateObject private var navigationManager = NavigationPathManager.shared
+    @StateObject private var coordinator = AppCoordinator.shared
+
+    var body: some View {
+        TabView(selection: $navigationManager.selectedTab) {
+            ForEach(TabItem.allCases, id: \.self) { tab in
+                NavigationStack(path: pathBinding(for: tab)) {
+                    rootView(for: tab)
+                        .navigationDestination(for: NavigationDestination.self) { destination in
+                            destinationView(for: destination)
+                        }
+                }
+                .tabItem { Label(tab.title, systemImage: tab.systemImage) }
+                .tag(tab)
+            }
+        }
+    }
+}
+```
+
+### App Flow Structure
+
+#### 1. Initial Launch (BobTheBuilderApp.swift)
+
+```swift
+var body: some Scene {
+    WindowGroup {
+        ZStack {
+            if coordinator.isLoading {
+                LoadingView()
+            } else if coordinator.showOnboarding {
+                OnboardingView()
+            } else if !coordinator.isAuthenticated {
+                LoginView()
+            } else {
+                MainTabView()
+            }
+        }
+        .onOpenURL { url in
+            coordinator.handleDeepLink(url)
+        }
+    }
+}
+```
+
+#### 2. Tab-Based Navigation
+
+Each tab maintains its own NavigationStack with independent navigation history:
+
+**Projects Tab:**
+- ProjectListView (root)
+  - ProjectDetailPlaceholder
+    - CreateRFIPlaceholder
+    - (additional navigation as needed)
+
+**RFIs Tab:**
+- RFIListView (root)
+  - RFIDetailPlaceholder
+  - CreateRFIPlaceholder
+
+**Settings Tab:**
+- SettingsView (root)
+  - ProfilePlaceholder
+  - AboutPlaceholder
+
+#### 3. Cross-Tab Navigation
+
+Navigate to any tab from anywhere:
+
+```swift
+// Switch to projects tab and show detail
+navigationManager.navigate(
+    to: .projectDetail(projectId: "123"),
+    in: .projects
+)
+
+// This will:
+// 1. Switch selectedTab to .projects
+// 2. Push destination onto projectsPath
+// 3. Show ProjectDetailPlaceholder
+```
+
+### Deep Linking
+
+#### URL Scheme
+
+App responds to `bobthebuilder://` URLs:
+
+```
+bobthebuilder://project/123      → Navigate to project detail
+bobthebuilder://rfi/456          → Navigate to RFI detail
+```
+
+#### Implementation
+
+```swift
+func handleDeepLink(_ url: URL) {
+    guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true)
+    else { return }
+
+    switch components.host {
+    case "project":
+        if let projectId = components.path.split(separator: "/").last.map(String.init) {
+            navigationManager.navigate(to: .projectDetail(projectId: projectId), in: .projects)
+        }
+    case "rfi":
+        if let rfiId = components.path.split(separator: "/").last.map(String.init) {
+            navigationManager.navigate(to: .rfiDetail(rfiId: rfiId), in: .rfis)
+        }
+    default:
+        break
+    }
+}
+```
+
+#### Testing Deep Links
+
+In Simulator or device:
+```bash
+xcrun simctl openurl booted "bobthebuilder://project/123"
+```
+
+From Safari or other apps:
+```html
+<a href="bobthebuilder://project/123">Open Project</a>
+```
+
+### iOS 15 Compatibility
+
+NavigationCompatibility.swift provides fallback support:
+
+```swift
+struct CompatibleNavigationStack<Content: View>: View {
+    var body: some View {
+        if #available(iOS 16.0, *) {
+            NavigationStack { content }
+        } else {
+            NavigationView { content }
+                .navigationViewStyle(.stack)
+        }
+    }
+}
+```
+
+**iOS 16+**: Uses NavigationStack with full path-based navigation
+**iOS 15**: Falls back to NavigationView with NavigationLink-based navigation
+
+### Testing Navigation
+
+#### Unit Tests (NavigationTests.swift)
+
+```swift
+func testNavigateToProjectDetail() {
+    let destination = NavigationDestination.projectDetail(projectId: "123")
+    navigationManager.navigate(to: destination, in: .projects)
+
+    XCTAssertEqual(navigationManager.selectedTab, .projects)
+    XCTAssertEqual(navigationManager.projectsPath.count, 1)
+}
+
+func testDeepLinkHandling() {
+    let url = URL(string: "bobthebuilder://project/123")!
+    coordinator.handleDeepLink(url)
+
+    XCTAssertEqual(navigationManager.selectedTab, .projects)
+}
+```
+
+#### UI Testing
+
+```swift
+func testNavigationFlow() {
+    let app = XCUIApplication()
+    app.launch()
+
+    // Tap first project
+    app.tables.cells.firstMatch.tap()
+
+    // Verify detail view appeared
+    XCTAssertTrue(app.navigationBars["Project"].exists)
+
+    // Navigate back
+    app.navigationBars.buttons.firstMatch.tap()
+    XCTAssertTrue(app.navigationBars["Projects"].exists)
+}
+```
+
+### Best Practices
+
+**DO:**
+- Use NavigationPathManager for all navigation
+- Define new destinations in NavigationDestination enum
+- Keep navigation logic in coordinators, not views
+- Test navigation flows with unit and UI tests
+- Use deep links for external navigation entry points
+
+**DON'T:**
+- Don't use NavigationLink with isActive/tag patterns
+- Don't manage navigation state in individual views
+- Don't create navigation paths manually
+- Don't forget to handle deep links in coordinator
+- Don't mutate navigation paths directly in views
+
+### Future Enhancements
+
+1. **State Restoration**
+   - Save/restore navigation paths across app launches
+   - Preserve tab selection and navigation history
+
+2. **Analytics Integration**
+   - Track navigation events
+   - Monitor user flows
+   - Identify navigation bottlenecks
+
+3. **Advanced Deep Linking**
+   - Universal Links support
+   - Smart deep link routing
+   - Deferred deep links
+
+4. **Navigation Transitions**
+   - Custom transitions between screens
+   - Shared element animations
+   - Gesture-driven navigation
+
+5. **Navigation Guards**
+   - Prevent navigation when unsaved changes
+   - Permission-based navigation
+   - Conditional navigation flows

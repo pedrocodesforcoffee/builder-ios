@@ -10,6 +10,7 @@ import SwiftUI
 
 @main
 struct BobTheBuilderApp: App {
+    @StateObject private var coordinator = AppCoordinator.shared
 
     init() {
         setupApp()
@@ -17,7 +18,29 @@ struct BobTheBuilderApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ZStack {
+                if coordinator.isLoading {
+                    LoadingView()
+                } else if coordinator.showOnboarding {
+                    OnboardingView()
+                } else if !coordinator.isAuthenticated {
+                    LoginView()
+                } else {
+                    MainTabView()
+                }
+            }
+            .onOpenURL { url in
+                coordinator.handleDeepLink(url)
+            }
+            .alert(item: $coordinator.appError) { error in
+                Alert(
+                    title: Text(error.title),
+                    message: Text(error.message),
+                    dismissButton: .default(Text("OK")) {
+                        error.dismissAction?()
+                    }
+                )
+            }
         }
     }
 
@@ -34,5 +57,11 @@ struct BobTheBuilderApp: App {
         appearance.configureWithOpaqueBackground()
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
+
+        // Configure tab bar appearance
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithOpaqueBackground()
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
     }
 }
