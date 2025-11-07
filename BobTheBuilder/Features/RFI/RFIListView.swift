@@ -9,48 +9,41 @@
 import SwiftUI
 
 struct RFIListView: View {
+    @StateObject private var viewModel = RFIListViewModel()
     @StateObject private var navigationManager = NavigationPathManager.shared
     @State private var searchText = ""
-    @State private var filterStatus: RFIStatus = .all
-
-    // Placeholder data
-    private let sampleRFIs = [
-        ("1", "Electrical wiring specifications", "1", "Open", Date()),
-        ("2", "Foundation depth clarification", "1", "Pending", Date().addingTimeInterval(-86400)),
-        ("3", "HVAC system requirements", "2", "Resolved", Date().addingTimeInterval(-172800)),
-        ("4", "Window glazing type", "3", "Open", Date().addingTimeInterval(-259200))
-    ]
+    @State private var filterStatus: RFIFilterStatus = .all
 
     var body: some View {
-        List {
-            Section {
-                Picker("Filter", selection: $filterStatus) {
-                    ForEach(RFIStatus.allCases, id: \.self) { status in
-                        Text(status.rawValue).tag(status)
+        ZStack {
+            if viewModel.viewState.isLoading {
+                LoadingStateView(message: "Loading RFIs...")
+            } else if viewModel.viewState.isEmpty {
+                EmptyStateView(
+                    icon: "doc.text.fill",
+                    title: "No RFIs Yet",
+                    message: "Tap + to create your first RFI",
+                    actionTitle: "Create RFI",
+                    action: {
+                        navigationManager.navigate(to: .createRFI(projectId: "1"))
                     }
-                }
-                .pickerStyle(.segmented)
-            }
-
-            ForEach(filteredRFIs, id: \.0) { rfi in
-                RFIRow(
-                    title: rfi.1,
-                    status: rfi.3,
-                    date: rfi.4
                 )
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    navigationManager.navigate(to: .rfiDetail(rfiId: rfi.0))
-                }
+            } else if let error = viewModel.viewState.error {
+                ErrorStateView(
+                    error: error.localizedDescription,
+                    retry: {
+                        viewModel.loadRFIs()
+                    }
+                )
+            } else if let rfis = viewModel.viewState.data {
+                rfiList(rfis: rfis)
             }
         }
         .navigationTitle("RFIs")
-        .searchable(text: $searchText, prompt: "Search RFIs")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
                     Button(action: {
-                        // Navigate to create RFI - need to select project first
                         navigationManager.navigate(to: .createRFI(projectId: "1"))
                     }) {
                         Label("New RFI", systemImage: "plus")
@@ -60,117 +53,224 @@ struct RFIListView: View {
                 }
             }
         }
-        .overlay {
-            if sampleRFIs.isEmpty {
-                emptyStateView
-            }
+        .onAppear {
+            viewModel.loadRFIs()
+        }
+        .refreshable {
+            await viewModel.refreshRFIs()
         }
     }
 
-    private var filteredRFIs: [(String, String, String, String, Date)] {
-        var rfis = sampleRFIs
+    private func rfiList(rfis: [RFI]) -> some View {
+        List {
+            Section {
+                Picker("Filter", selection: $filterStatus) {
+                    ForEach(RFIFilterStatus.allCases, id: \.self) { status in
+                        Text(status.rawValue).tag(status)
+                    }
+                }
+                .pickerStyle(.segmented)
+            }
+
+            ForEach(filteredRFIs(rfis)) { rfi in
+                RFIRow(rfi: rfi)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        navigationManager.navigate(to: .rfiDetail(rfiId: rfi.id))
+                    }
+            }
+        }
+        .searchable(text: $searchText, prompt: "Search RFIs")
+    }
+
+    private func filteredRFIs(_ rfis: [RFI]) -> [RFI] {
+        var filtered = rfis
 
         // Filter by status
         if filterStatus != .all {
-            rfis = rfis.filter { $0.3 == filterStatus.rawValue }
+            filtered = filtered.filter { rfi in
+                switch filterStatus {
+                case .all:
+                    return true
+                case .draft:
+                    return rfi.status == .draft
+                case .pending:
+                    return rfi.status == .pending
+                case .answered:
+                    return rfi.status == .answered
+                case .closed:
+                    return rfi.status == .closed
+                }
+            }
         }
 
         // Filter by search text
         if !searchText.isEmpty {
-            rfis = rfis.filter { $0.1.localizedCaseInsensitiveContains(searchText) }
+            filtered = filtered.filter { $0.subject.localizedCaseInsensitiveContains(searchText) }
         }
 
-        return rfis
-    }
-
-    private var emptyStateView: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "doc.text.fill")
-                .font(.system(size: 60))
-                .foregroundColor(.gray)
-            Text("No RFIs Yet")
-                .font(.title2)
-                .fontWeight(.semibold)
-            Text("Tap + to create your first RFI")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-            Button(action: {
-                navigationManager.navigate(to: .createRFI(projectId: "1"))
-            }) {
-                Label("Create RFI", systemImage: "plus")
-                    .font(.headline)
-            }
-            .buttonStyle(.borderedProminent)
-            .padding(.top, 8)
-        }
+        return filtered
     }
 }
 
-enum RFIStatus: String, CaseIterable {
+enum RFIFilterStatus: String, CaseIterable {
     case all = "All"
-    case open = "Open"
+    case draft = "Draft"
     case pending = "Pending"
-    case resolved = "Resolved"
+    case answered = "Answered"
+    case closed = "Closed"
 }
+
+// MARK: - RFI List View Model
+
+class RFIListViewModel: ObservableObject {
+    @Published var viewState: ViewState<[RFI]> = .idle
+
+    func loadRFIs() {
+        guard viewState.isIdle else { return }
+
+        viewState = .loading
+
+        // Simulate API call
+        Task {
+            try? await Task.sleep(nanoseconds: 1_000_000_000) // 1 second
+
+            await MainActor.run {
+                let rfis = RFI.mockRFIs
+
+                if rfis.isEmpty {
+                    viewState = .empty
+                } else {
+                    viewState = .loaded(rfis)
+                }
+            }
+        }
+    }
+
+    func refreshRFIs() async {
+        // Simulate API call without showing loading state
+        try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
+
+        await MainActor.run {
+            let rfis = RFI.mockRFIs
+
+            if rfis.isEmpty {
+                viewState = .empty
+            } else {
+                viewState = .loaded(rfis)
+            }
+        }
+    }
+}
+
+// MARK: - RFI Row
 
 struct RFIRow: View {
-    let title: String
-    let status: String
-    let date: Date
+    let rfi: RFI
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(title)
-                .font(.headline)
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
-                RFIStatusBadge(status: status)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("RFI #\(rfi.number)")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Text(rfi.subject)
+                        .font(.headline)
+                }
                 Spacer()
-                Text(formattedDate)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                Image(systemName: "chevron.right")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                Image(systemName: rfi.status.icon)
+                    .foregroundColor(rfi.status.color)
             }
+
+            HStack {
+                RFIStatusBadge(status: rfi.status.rawValue, color: rfi.status.color)
+
+                PriorityBadge(priority: rfi.priority)
+
+                Spacer()
+
+                if let dueDate = rfi.dueDate {
+                    Label(
+                        dueDate.formatted(date: .abbreviated, time: .omitted),
+                        systemImage: rfi.isOverdue ? "exclamationmark.triangle.fill" : "calendar"
+                    )
+                    .font(.caption)
+                    .foregroundColor(rfi.isOverdue ? .red : .secondary)
+                } else {
+                    Text(formattedCreatedDate)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+
+            Text(rfi.project)
+                .font(.caption)
+                .foregroundColor(.secondary)
         }
         .padding(.vertical, 4)
     }
 
-    private var formattedDate: String {
+    private var formattedCreatedDate: String {
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .abbreviated
-        return formatter.localizedString(for: date, relativeTo: Date())
+        return formatter.localizedString(for: rfi.createdDate, relativeTo: Date())
     }
 }
 
+// MARK: - Status and Priority Badges
+
 struct RFIStatusBadge: View {
     let status: String
+    let color: Color
 
     var body: some View {
         Text(status)
             .font(.caption)
             .fontWeight(.medium)
-            .foregroundColor(statusColor)
+            .foregroundColor(color)
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
-            .background(statusColor.opacity(0.2))
+            .background(color.opacity(0.2))
             .cornerRadius(8)
     }
+}
 
-    private var statusColor: Color {
-        switch status {
-        case "Open": return .red
-        case "Pending": return .orange
-        case "Resolved": return .green
-        default: return .gray
+struct PriorityBadge: View {
+    let priority: RFI.Priority
+
+    var body: some View {
+        HStack(spacing: 4) {
+            Image(systemName: priority.icon)
+                .font(.system(size: 10))
+            Text(priority.rawValue)
+                .font(.caption)
+                .fontWeight(.medium)
         }
+        .foregroundColor(priority.color)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(priority.color.opacity(0.2))
+        .cornerRadius(8)
     }
 }
+
+// MARK: - Previews
 
 struct RFIListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             RFIListView()
+        }
+    }
+}
+
+struct RFIRow_Previews: PreviewProvider {
+    static var previews: some View {
+        List {
+            RFIRow(rfi: RFI.sample)
+            RFIRow(rfi: RFI.mockRFIs[1])
+            RFIRow(rfi: RFI.mockRFIs[3])
         }
     }
 }

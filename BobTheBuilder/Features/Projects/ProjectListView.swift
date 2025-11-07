@@ -9,32 +9,36 @@
 import SwiftUI
 
 struct ProjectListView: View {
+    @StateObject private var viewModel = ProjectListViewModel()
     @StateObject private var navigationManager = NavigationPathManager.shared
     @State private var searchText = ""
 
-    // Placeholder data
-    private let sampleProjects = [
-        ("1", "Main Street Office Building", "Active"),
-        ("2", "Riverside Apartments", "Planning"),
-        ("3", "City Center Renovation", "Active"),
-        ("4", "Harbor View Complex", "On Hold")
-    ]
-
     var body: some View {
-        List {
-            ForEach(filteredProjects, id: \.0) { project in
-                ProjectRow(
-                    title: project.1,
-                    status: project.2
+        ZStack {
+            if viewModel.viewState.isLoading {
+                LoadingStateView(message: "Loading projects...")
+            } else if viewModel.viewState.isEmpty {
+                EmptyStateView(
+                    icon: "hammer.fill",
+                    title: "No Projects Yet",
+                    message: "Tap + to create your first project",
+                    actionTitle: "Create Project",
+                    action: {
+                        navigationManager.navigate(to: .createProject)
+                    }
                 )
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    navigationManager.navigate(to: .projectDetail(projectId: project.0))
-                }
+            } else if let error = viewModel.viewState.error {
+                ErrorStateView(
+                    error: error.localizedDescription,
+                    retry: {
+                        viewModel.loadProjects()
+                    }
+                )
+            } else if let projects = viewModel.viewState.data {
+                projectList(projects: projects)
             }
         }
         .navigationTitle("Projects")
-        .searchable(text: $searchText, prompt: "Search projects")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
@@ -44,93 +48,160 @@ struct ProjectListView: View {
                 }
             }
         }
-        .overlay {
-            if sampleProjects.isEmpty {
-                emptyStateView
-            }
+        .onAppear {
+            viewModel.loadProjects()
+        }
+        .refreshable {
+            await viewModel.refreshProjects()
         }
     }
 
-    private var filteredProjects: [(String, String, String)] {
+    private func projectList(projects: [Project]) -> some View {
+        List {
+            ForEach(filteredProjects(projects)) { project in
+                ProjectRow(project: project)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        navigationManager.navigate(to: .projectDetail(projectId: project.id))
+                    }
+            }
+        }
+        .searchable(text: $searchText, prompt: "Search projects")
+    }
+
+    private func filteredProjects(_ projects: [Project]) -> [Project] {
         if searchText.isEmpty {
-            return sampleProjects
+            return projects
         } else {
-            return sampleProjects.filter { $0.1.localizedCaseInsensitiveContains(searchText) }
-        }
-    }
-
-    private var emptyStateView: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "hammer.fill")
-                .font(.system(size: 60))
-                .foregroundColor(.gray)
-            Text("No Projects Yet")
-                .font(.title2)
-                .fontWeight(.semibold)
-            Text("Tap + to create your first project")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-            Button(action: {
-                navigationManager.navigate(to: .createProject)
-            }) {
-                Label("Create Project", systemImage: "plus")
-                    .font(.headline)
-            }
-            .buttonStyle(.borderedProminent)
-            .padding(.top, 8)
+            return projects.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
         }
     }
 }
 
+// MARK: - Project List View Model
+
+class ProjectListViewModel: ObservableObject {
+    @Published var viewState: ViewState<[Project]> = .idle
+
+    func loadProjects() {
+        guard viewState.isIdle else { return }
+
+        viewState = .loading
+
+        // Simulate API call
+        Task {
+            try? await Task.sleep(nanoseconds: 1_000_000_000) // 1 second
+
+            await MainActor.run {
+                let projects = Project.mockProjects
+
+                if projects.isEmpty {
+                    viewState = .empty
+                } else {
+                    viewState = .loaded(projects)
+                }
+            }
+        }
+    }
+
+    func refreshProjects() async {
+        // Simulate API call without showing loading state
+        try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
+
+        await MainActor.run {
+            let projects = Project.mockProjects
+
+            if projects.isEmpty {
+                viewState = .empty
+            } else {
+                viewState = .loaded(projects)
+            }
+        }
+    }
+}
+
+// MARK: - Project Row
+
 struct ProjectRow: View {
-    let title: String
-    let status: String
+    let project: Project
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(title)
-                .font(.headline)
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
-                StatusBadge(status: status)
+                Text(project.name)
+                    .font(.headline)
                 Spacer()
-                Image(systemName: "chevron.right")
+                Image(systemName: project.status.icon)
+                    .foregroundColor(project.status.color)
+            }
+
+            HStack {
+                StatusBadge(status: project.status.rawValue, color: project.status.color)
+
+                if let location = project.location {
+                    Text("•")
+                        .foregroundColor(.secondary)
+                    Label(location, systemImage: "location.fill")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .lineLimit(1)
+                }
+
+                Spacer()
+
+                if let dueDate = project.dueDate {
+                    Label(
+                        dueDate.formatted(date: .abbreviated, time: .omitted),
+                        systemImage: "calendar"
+                    )
                     .font(.caption)
                     .foregroundColor(.secondary)
+                }
+            }
+
+            if project.progress > 0 {
+                ProgressView(value: project.progress)
+                    .tint(project.status.color)
             }
         }
         .padding(.vertical, 4)
     }
 }
 
+// MARK: - Status Badge
+
 struct StatusBadge: View {
     let status: String
+    let color: Color
 
     var body: some View {
         Text(status)
             .font(.caption)
             .fontWeight(.medium)
-            .foregroundColor(statusColor)
+            .foregroundColor(color)
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
-            .background(statusColor.opacity(0.2))
+            .background(color.opacity(0.2))
             .cornerRadius(8)
     }
-
-    private var statusColor: Color {
-        switch status {
-        case "Active": return .green
-        case "Planning": return .blue
-        case "On Hold": return .orange
-        case "Completed": return .gray
-        default: return .gray
-        }
-    }
 }
+
+// MARK: - Previews
 
 struct ProjectListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             ProjectListView()
+        }
+    }
+}
+
+struct ProjectRow_Previews: PreviewProvider {
+    static var previews: some View {
+        List {
+            ProjectRow(project: Project.sample)
+            ProjectRow(project: Project.mockProjects[1])
+            ProjectRow(project: Project.mockProjects[2])
         }
     }
 }
