@@ -503,3 +503,314 @@ class ProjectFlowUITests: XCTestCase {
 - Analytics enabled
 - Crash reporting enabled
 - App Store configuration
+
+## API Client Architecture
+
+### Overview
+
+The API client provides a robust networking layer with comprehensive features:
+- **Async/await** and **Combine** support for flexible integration
+- **Automatic retry logic** with exponential backoff for transient errors
+- **Comprehensive logging** with NetworkLogger for debugging
+- **Mock client** for reliable unit testing
+- **Type-safe** request/response handling via protocols
+
+### Components
+
+#### APIRequest Protocol
+
+Defines the contract for all API requests:
+- **Path**: API endpoint path
+- **Method**: HTTP method (GET, POST, PUT, PATCH, DELETE)
+- **Headers**: Custom HTTP headers
+- **Parameters**: URL query parameters
+- **Body**: Request body data
+- **Timeout**: Request timeout (default: 30s)
+- **MaxRetries**: Maximum retry attempts (default: 3)
+
+```swift
+struct LoginRequest: APIRequest {
+    typealias Response = LoginResponse
+    
+    let email: String
+    let password: String
+    
+    var path: String { "/auth/login" }
+    var method: HTTPMethod { .post }
+    var body: Data? {
+        try? JSONEncoder().encode(["email": email, "password": password])
+    }
+}
+```
+
+#### APIClient
+
+Main networking implementation:
+- **URLSession-based**: Uses Apple's standard networking APIs
+- **Environment-aware**: Automatically uses correct API URL from AppConfiguration
+- **Automatic retry**: Retries transient errors (timeout, network, 5xx)
+- **Exponential backoff**: Delay increases with each retry (1s, 2s, 4s...)
+- **Request/response logging**: Detailed logs via NetworkLogger
+
+```swift
+// Execute request with async/await
+let request = LoginRequest(email: "user@example.com", password: "secure123")
+let response = try await APIClient.shared.execute(request)
+
+// Or use Combine
+APIClient.shared.execute(request)
+    .sink(
+        receiveCompletion: { completion in
+            // Handle completion
+        },
+        receiveValue: { response in
+            // Handle response
+        }
+    )
+    .store(in: &cancellables)
+```
+
+#### MockAPIClient
+
+Testing implementation for unit tests:
+- **Simulates network delays**: Configurable delay for realistic testing
+- **Configurable responses and errors**: Set expected responses or errors per endpoint
+- **Request tracking**: Logs all requests for assertions
+- **No network calls**: Fast, reliable tests without external dependencies
+
+```swift
+// Setup mock
+let mockClient = MockAPIClient()
+mockClient.requestDelay = 0.1
+
+// Configure response
+let expectedResponse = LoginResponse(token: "mock-token", userId: "123")
+mockClient.setMockResponse(expectedResponse, for: .post, path: "/auth/login")
+
+// Execute and test
+let request = LoginRequest(email: "test@example.com", password: "password")
+let response = try await mockClient.execute(request)
+
+XCTAssertEqual(response.token, "mock-token")
+XCTAssertEqual(mockClient.requestLog.count, 1)
+```
+
+### Error Handling
+
+APIError enum provides specific, actionable error cases:
+
+**Network Errors:**
+- `.timeout` - Request timed out (retriable)
+- `.noInternetConnection` - No network available (retriable)
+- `.networkError(Error)` - General network error (retriable)
+
+**HTTP Errors:**
+- `.unauthorized` - 401 status (not retriable)
+- `.httpError(statusCode, data)` - 4xx client errors (not retriable)
+- `.serverError(message)` - 5xx server errors (retriable)
+
+**Data Errors:**
+- `.invalidURL` - Malformed URL (not retriable)
+- `.noData` - Empty response (not retriable)
+- `.decodingError(Error)` - JSON decoding failed (not retriable)
+
+```swift
+do {
+    let response = try await APIClient.shared.execute(request)
+    // Handle success
+} catch let error as APIError {
+    switch error {
+    case .unauthorized:
+        // Navigate to login
+    case .noInternetConnection:
+        // Show offline banner
+    case .httpError(let statusCode, _):
+        // Show error message based on status code
+    default:
+        // Show generic error
+    }
+}
+```
+
+### Logging with NetworkLogger
+
+NetworkLogger provides detailed, formatted logs for debugging:
+
+**Request Logging:**
+```
+[14:23:45.123] 🚀 POST https://api-dev.bobthebuilder.com/auth/login
+📋 Headers: ["Content-Type": "application/json", "User-Agent": "iOS/0.1.0"]
+📦 Body: {"email":"user@example.com","password":"********"}
+```
+
+**Response Logging:**
+```
+[14:23:45.456] ✅ 200 https://api-dev.bobthebuilder.com/auth/login
+📦 Response size: 256 bytes
+📄 Response: {"token":"jwt-token-here","user_id":"123"}
+```
+
+**Status Emojis:**
+- ✅ 2xx - Success
+- ↩️ 3xx - Redirect
+- ⚠️ 4xx - Client error
+- 🔥 5xx - Server error
+- ❓ Other - Unknown status
+
+Logs are visible in:
+- **Xcode Console**: During development
+- **Console.app**: Filter by "com.bobthebuilder.app" subsystem
+- **OSLog**: Integrated with system logging
+
+### Retry Logic
+
+APIClient automatically retries transient errors:
+
+1. **Retriable Errors**: timeout, networkError, noInternetConnection, 5xx status codes
+2. **Non-Retriable**: 4xx errors, unauthorized, decodingError, invalidURL
+3. **Exponential Backoff**: Delay = 1s × 2^(attempt-1)
+   - Attempt 1: 0s delay (initial request)
+   - Attempt 2: 1s delay
+   - Attempt 3: 2s delay
+   - Attempt 4: 4s delay
+4. **Max Retries**: Configurable per request (default: 3)
+
+```swift
+// Logs when retrying:
+[14:23:45.789] 🔄 Retrying request (attempt 2/4) after 1.0s
+[14:23:46.789] 🔄 Retrying request (attempt 3/4) after 2.0s
+```
+
+### Testing Strategy
+
+#### Unit Tests with MockAPIClient
+
+```swift
+class ProjectServiceTests: XCTestCase {
+    var mockClient: MockAPIClient!
+    var service: ProjectService!
+    
+    override func setUp() {
+        mockClient = MockAPIClient()
+        mockClient.requestDelay = 0.1
+        service = ProjectService(apiClient: mockClient)
+    }
+    
+    func testFetchProjects() async throws {
+        // Arrange
+        let mockProjects = [
+            Project(id: "1", name: "Test Project", status: .active)
+        ]
+        mockClient.setMockResponse(mockProjects, for: .get, path: "/projects")
+        
+        // Act
+        let projects = try await service.fetchProjects()
+        
+        // Assert
+        XCTAssertEqual(projects.count, 1)
+        XCTAssertEqual(projects.first?.name, "Test Project")
+        XCTAssertEqual(mockClient.requestLog.count, 1)
+    }
+    
+    func testNetworkError() async {
+        // Arrange
+        mockClient.setMockError(.noInternetConnection, for: .get, path: "/projects")
+        
+        // Act & Assert
+        do {
+            _ = try await service.fetchProjects()
+            XCTFail("Expected error")
+        } catch let error as APIError {
+            XCTAssertEqual(error, .noInternetConnection)
+        }
+    }
+}
+```
+
+### Future Enhancements
+
+Planned improvements for the API client:
+
+1. **Authentication Interceptor**
+   - Automatic JWT token injection
+   - Token refresh on 401
+   - Retry after token refresh
+
+2. **Request/Response Interceptors**
+   - Custom header injection
+   - Response transformation
+   - Analytics tracking
+
+3. **Advanced Caching**
+   - HTTP cache support
+   - Custom cache policies
+   - Offline response serving
+
+4. **Certificate Pinning**
+   - SSL pinning for security
+   - Trust validation
+   - Certificate rotation
+
+5. **Request Prioritization**
+   - Priority queue for requests
+   - Cancel low-priority on memory pressure
+   - User-initiated vs background requests
+
+### Integration Guidelines
+
+**Creating New API Requests:**
+
+1. Define response model:
+```swift
+struct ProjectResponse: Codable {
+    let id: String
+    let name: String
+    let status: String
+}
+```
+
+2. Create request:
+```swift
+struct FetchProjectRequest: APIRequest {
+    typealias Response = ProjectResponse
+    
+    let projectId: String
+    
+    var path: String { "/projects/\(projectId)" }
+    var method: HTTPMethod { .get }
+}
+```
+
+3. Execute in service layer:
+```swift
+class ProjectService {
+    private let apiClient: APIClientProtocol
+    
+    init(apiClient: APIClientProtocol = APIClient.shared) {
+        self.apiClient = apiClient
+    }
+    
+    func fetchProject(id: String) async throws -> ProjectResponse {
+        let request = FetchProjectRequest(projectId: id)
+        return try await apiClient.execute(request)
+    }
+}
+```
+
+4. Test with mock:
+```swift
+let mockClient = MockAPIClient()
+mockClient.setMockResponse(expectedResponse, for: .get, path: "/projects/123")
+let service = ProjectService(apiClient: mockClient)
+```
+
+---
+
+**Best Practices:**
+- Always use protocol (`APIClientProtocol`) for dependency injection
+- Create dedicated request structs for each endpoint
+- Use MockAPIClient for all unit tests
+- Monitor logs in Console.app during development
+- Handle specific APIError cases appropriately
+- Set reasonable timeouts for requests
+- Configure retry limits based on operation criticality
