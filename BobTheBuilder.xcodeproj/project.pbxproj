@@ -1,0 +1,529 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1B95C7E5617ED368C4BC98C5 /* BobTheBuilderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EFAFB661E0C07C387F59C3D /* BobTheBuilderUITests.swift */; };
+		31662601346F89F763025DC0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21D05BB8A21B11D73DFE1F42 /* Assets.xcassets */; };
+		5EAEFECE027AA2F5EEB5C12F /* BobTheBuilderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF63CE6A8045DFE9346E0D31 /* BobTheBuilderApp.swift */; };
+		7E8848DCEB3528A488A1CD67 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE606EA915D59A9132AE3DC /* ContentView.swift */; };
+		864F85F6297982B6B1476740 /* BobTheBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CBAA5612263A37EBB6CD00 /* BobTheBuilderTests.swift */; };
+		FF8DA714374A583ABF5A8A31 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F8AC45048477C6E027B52D8 /* Localizable.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		07BB2C2D597233376EA76BA3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F9E014D449D39A808926ABF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 07FB0CF7E081E07C3DC84E90;
+			remoteInfo = BobTheBuilder;
+		};
+		25C67CBB33508B56AB593B25 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F9E014D449D39A808926ABF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 07FB0CF7E081E07C3DC84E90;
+			remoteInfo = BobTheBuilder;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00CBAA5612263A37EBB6CD00 /* BobTheBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobTheBuilderTests.swift; sourceTree = "<group>"; };
+		21D05BB8A21B11D73DFE1F42 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2F8AC45048477C6E027B52D8 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		41F1855E8CAFDCD36F8A1166 /* BobTheBuilder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BobTheBuilder.entitlements; sourceTree = "<group>"; };
+		6391783685AF514B0DE2E0D5 /* BobTheBuilderUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = BobTheBuilderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6920B372CADCDADB0C002181 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
+		6E68C909D635408FC01A91B1 /* BobTheBuilderTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = BobTheBuilderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		74A9C60A0B57BC4A43E71419 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
+		963760C24FD6A1DA963A9350 /* BobTheBuilder.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BobTheBuilder.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9EFAFB661E0C07C387F59C3D /* BobTheBuilderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobTheBuilderUITests.swift; sourceTree = "<group>"; };
+		B62EF9E5E14CF56C045590D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D3B9562298046D145D629CEF /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Staging.xcconfig; sourceTree = "<group>"; };
+		EDE606EA915D59A9132AE3DC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		EF63CE6A8045DFE9346E0D31 /* BobTheBuilderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobTheBuilderApp.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		332EE353D377F9CA659C0062 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				963760C24FD6A1DA963A9350 /* BobTheBuilder.app */,
+				6E68C909D635408FC01A91B1 /* BobTheBuilderTests.xctest */,
+				6391783685AF514B0DE2E0D5 /* BobTheBuilderUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		399921365FF060AB4DC4D642 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				EF63CE6A8045DFE9346E0D31 /* BobTheBuilderApp.swift */,
+				B62EF9E5E14CF56C045590D7 /* Info.plist */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		5703BE02AF7D5C0415EAD7EF /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				74A9C60A0B57BC4A43E71419 /* Development.xcconfig */,
+				6920B372CADCDADB0C002181 /* Production.xcconfig */,
+				D3B9562298046D145D629CEF /* Staging.xcconfig */,
+			);
+			name = Config;
+			path = BobTheBuilder/Config;
+			sourceTree = "<group>";
+		};
+		61EF3251EACD7DD82F140D7F /* BobTheBuilderTests */ = {
+			isa = PBXGroup;
+			children = (
+				00CBAA5612263A37EBB6CD00 /* BobTheBuilderTests.swift */,
+			);
+			path = BobTheBuilderTests;
+			sourceTree = "<group>";
+		};
+		662F1872A6FE774E4EE78E06 /* BobTheBuilderUITests */ = {
+			isa = PBXGroup;
+			children = (
+				9EFAFB661E0C07C387F59C3D /* BobTheBuilderUITests.swift */,
+			);
+			path = BobTheBuilderUITests;
+			sourceTree = "<group>";
+		};
+		BBA40570FD6A11700181ECC6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				21D05BB8A21B11D73DFE1F42 /* Assets.xcassets */,
+				2F8AC45048477C6E027B52D8 /* Localizable.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		E4CE4EF0DD152C6EC5363DF8 /* BobTheBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				41F1855E8CAFDCD36F8A1166 /* BobTheBuilder.entitlements */,
+				EDE606EA915D59A9132AE3DC /* ContentView.swift */,
+				399921365FF060AB4DC4D642 /* App */,
+				BBA40570FD6A11700181ECC6 /* Resources */,
+			);
+			path = BobTheBuilder;
+			sourceTree = "<group>";
+		};
+		E6CA80FBD054829B65950B18 = {
+			isa = PBXGroup;
+			children = (
+				E4CE4EF0DD152C6EC5363DF8 /* BobTheBuilder */,
+				61EF3251EACD7DD82F140D7F /* BobTheBuilderTests */,
+				662F1872A6FE774E4EE78E06 /* BobTheBuilderUITests */,
+				5703BE02AF7D5C0415EAD7EF /* Config */,
+				332EE353D377F9CA659C0062 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		"TEMP_5FB2E47B-29F4-47C3-B6ED-DAC4A77E0257" /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		"TEMP_BCAA5E8B-DA60-45D6-9B19-826D6D611163" /* Core */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		"TEMP_D13F13D7-942B-4460-B04D-E7D7FBF98E52" /* Features */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		07FB0CF7E081E07C3DC84E90 /* BobTheBuilder */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D40BAB08FDC9B1EC5F3605A7 /* Build configuration list for PBXNativeTarget "BobTheBuilder" */;
+			buildPhases = (
+				B985CA5A7B071AC2A3CB2609 /* SwiftLint */,
+				08A2C4EADBEBC8DD73063919 /* Sources */,
+				9018B99F2893DE96D50B3D1A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BobTheBuilder;
+			packageProductDependencies = (
+			);
+			productName = BobTheBuilder;
+			productReference = 963760C24FD6A1DA963A9350 /* BobTheBuilder.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4CFE747D2E872A3ED7CFAD54 /* BobTheBuilderUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D70C81939FB2916E84C39577 /* Build configuration list for PBXNativeTarget "BobTheBuilderUITests" */;
+			buildPhases = (
+				5AAF0908442AD3AD38DD93CF /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F6C2FB7C4DBD20EFBAC728C9 /* PBXTargetDependency */,
+			);
+			name = BobTheBuilderUITests;
+			packageProductDependencies = (
+			);
+			productName = BobTheBuilderUITests;
+			productReference = 6391783685AF514B0DE2E0D5 /* BobTheBuilderUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		843AE9DCA89D843E91D5DED1 /* BobTheBuilderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5C91E4AE8D89BCFF3513456A /* Build configuration list for PBXNativeTarget "BobTheBuilderTests" */;
+			buildPhases = (
+				887CBFFA75295AAFEF2C382A /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FCFBB87D1BF425F0294AB087 /* PBXTargetDependency */,
+			);
+			name = BobTheBuilderTests;
+			packageProductDependencies = (
+			);
+			productName = BobTheBuilderTests;
+			productReference = 6E68C909D635408FC01A91B1 /* BobTheBuilderTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5F9E014D449D39A808926ABF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					07FB0CF7E081E07C3DC84E90 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					4CFE747D2E872A3ED7CFAD54 = {
+						DevelopmentTeam = "";
+						TestTargetID = 07FB0CF7E081E07C3DC84E90;
+					};
+					843AE9DCA89D843E91D5DED1 = {
+						DevelopmentTeam = "";
+					};
+				};
+			};
+			buildConfigurationList = FF29D55E1A2AAA3C17318A68 /* Build configuration list for PBXProject "BobTheBuilder" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = E6CA80FBD054829B65950B18;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				07FB0CF7E081E07C3DC84E90 /* BobTheBuilder */,
+				843AE9DCA89D843E91D5DED1 /* BobTheBuilderTests */,
+				4CFE747D2E872A3ED7CFAD54 /* BobTheBuilderUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9018B99F2893DE96D50B3D1A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31662601346F89F763025DC0 /* Assets.xcassets in Resources */,
+				FF8DA714374A583ABF5A8A31 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B985CA5A7B071AC2A3CB2609 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		08A2C4EADBEBC8DD73063919 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5EAEFECE027AA2F5EEB5C12F /* BobTheBuilderApp.swift in Sources */,
+				7E8848DCEB3528A488A1CD67 /* ContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5AAF0908442AD3AD38DD93CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B95C7E5617ED368C4BC98C5 /* BobTheBuilderUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		887CBFFA75295AAFEF2C382A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				864F85F6297982B6B1476740 /* BobTheBuilderTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F6C2FB7C4DBD20EFBAC728C9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 07FB0CF7E081E07C3DC84E90 /* BobTheBuilder */;
+			targetProxy = 07BB2C2D597233376EA76BA3 /* PBXContainerItemProxy */;
+		};
+		FCFBB87D1BF425F0294AB087 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 07FB0CF7E081E07C3DC84E90 /* BobTheBuilder */;
+			targetProxy = 25C67CBB33508B56AB593B25 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0C5EB44BF494068458CE7157 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BobTheBuilder/BobTheBuilder.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app;
+				PRODUCT_NAME = BobTheBuilder;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.5;
+			};
+			name = Debug;
+		};
+		1034EB8E475BDB9C728F13B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
+				SWIFT_VERSION = 5.5;
+				TEST_TARGET_NAME = BobTheBuilder;
+			};
+			name = Release;
+		};
+		18A226C5EC00887673A8BFE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.tests;
+				SWIFT_VERSION = 5.5;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
+			};
+			name = Debug;
+		};
+		2021F786BAEE17BE24C12077 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6920B372CADCDADB0C002181 /* Production.xcconfig */;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.1.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.5;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3B62CDB61E5EB2DDD83EB083 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BobTheBuilder/BobTheBuilder.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app;
+				PRODUCT_NAME = BobTheBuilder;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = STAGING;
+				SWIFT_VERSION = 5.5;
+			};
+			name = Staging;
+		};
+		484644DC6A95DFEFCCD33E21 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BobTheBuilder/BobTheBuilder.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app;
+				PRODUCT_NAME = BobTheBuilder;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = RELEASE;
+				SWIFT_VERSION = 5.5;
+			};
+			name = Release;
+		};
+		5A19162F1A5DBAA3848A7D80 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.tests;
+				SWIFT_VERSION = 5.5;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
+			};
+			name = Staging;
+		};
+		B9FD70EF51CA405635199D3D /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
+				SWIFT_VERSION = 5.5;
+				TEST_TARGET_NAME = BobTheBuilder;
+			};
+			name = Staging;
+		};
+		C4F45E7D2230A806A273FC34 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
+				SWIFT_VERSION = 5.5;
+				TEST_TARGET_NAME = BobTheBuilder;
+			};
+			name = Debug;
+		};
+		D44AC25F0FDB93FC2EE7E068 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D3B9562298046D145D629CEF /* Staging.xcconfig */;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.1.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.5;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Staging;
+		};
+		D5FDA45DD1289E48187ADCBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.tests;
+				SWIFT_VERSION = 5.5;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
+			};
+			name = Release;
+		};
+		FCA43E9B413285192BA3ED33 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 74A9C60A0B57BC4A43E71419 /* Development.xcconfig */;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.1.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.5;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5C91E4AE8D89BCFF3513456A /* Build configuration list for PBXNativeTarget "BobTheBuilderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18A226C5EC00887673A8BFE3 /* Debug */,
+				D5FDA45DD1289E48187ADCBF /* Release */,
+				5A19162F1A5DBAA3848A7D80 /* Staging */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D40BAB08FDC9B1EC5F3605A7 /* Build configuration list for PBXNativeTarget "BobTheBuilder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0C5EB44BF494068458CE7157 /* Debug */,
+				484644DC6A95DFEFCCD33E21 /* Release */,
+				3B62CDB61E5EB2DDD83EB083 /* Staging */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D70C81939FB2916E84C39577 /* Build configuration list for PBXNativeTarget "BobTheBuilderUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4F45E7D2230A806A273FC34 /* Debug */,
+				1034EB8E475BDB9C728F13B8 /* Release */,
+				B9FD70EF51CA405635199D3D /* Staging */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		FF29D55E1A2AAA3C17318A68 /* Build configuration list for PBXProject "BobTheBuilder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FCA43E9B413285192BA3ED33 /* Debug */,
+				2021F786BAEE17BE24C12077 /* Release */,
+				D44AC25F0FDB93FC2EE7E068 /* Staging */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5F9E014D449D39A808926ABF /* Project object */;
+}

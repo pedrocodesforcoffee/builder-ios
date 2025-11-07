@@ -1,0 +1,126 @@
+name: BobTheBuilder
+options:
+  bundleIdPrefix: com.bobthebuilder
+  deploymentTarget:
+    iOS: "15.0"
+  developmentLanguage: en
+  xcodeVersion: "15.0"
+
+settings:
+  base:
+    SWIFT_VERSION: "5.5"
+    DEVELOPMENT_TEAM: ""
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    IPHONEOS_DEPLOYMENT_TARGET: "15.0"
+    TARGETED_DEVICE_FAMILY: "1,2"
+
+configFiles:
+  Debug: BobTheBuilder/Config/Development.xcconfig
+  Staging: BobTheBuilder/Config/Staging.xcconfig
+  Release: BobTheBuilder/Config/Production.xcconfig
+
+configs:
+  Debug: debug
+  Staging: release
+  Release: release
+
+targets:
+  BobTheBuilder:
+    type: application
+    platform: iOS
+    deploymentTarget: "15.0"
+    sources:
+      - path: BobTheBuilder
+        excludes:
+          - "Config/*.xcconfig"
+    info:
+      path: BobTheBuilder/App/Info.plist
+      properties:
+        CFBundleDevelopmentRegion: $(DEVELOPMENT_LANGUAGE)
+        CFBundleDisplayName: "Bob the Builder"
+        CFBundleExecutable: $(EXECUTABLE_NAME)
+        CFBundleIdentifier: $(PRODUCT_BUNDLE_IDENTIFIER)
+        CFBundleInfoDictionaryVersion: "6.0"
+        CFBundleName: $(PRODUCT_NAME)
+        CFBundlePackageType: $(PRODUCT_BUNDLE_PACKAGE_TYPE)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSRequiresIPhoneOS: true
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: true
+        ITSAppUsesNonExemptEncryption: false
+        UILaunchScreen: {}
+        UIRequiresFullScreen: false
+        UIApplicationSupportsIndirectInputEvents: true
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        NSCameraUsageDescription: "We need access to your camera to capture project photos."
+        NSPhotoLibraryUsageDescription: "We need access to your photo library to save and select project photos."
+        NSLocationWhenInUseUsageDescription: "We need your location to track project sites and field work."
+    settings:
+      base:
+        PRODUCT_NAME: BobTheBuilder
+        PRODUCT_BUNDLE_IDENTIFIER: com.bobthebuilder.app
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: ""
+        SWIFT_VERSION: "5.5"
+        INFOPLIST_FILE: BobTheBuilder/App/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ENABLE_PREVIEWS: YES
+      configs:
+        Debug:
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+        Staging:
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: STAGING
+        Release:
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: RELEASE
+    scheme:
+      testTargets:
+        - BobTheBuilderTests
+        - BobTheBuilderUITests
+    entitlements:
+      path: BobTheBuilder/BobTheBuilder.entitlements
+    preBuildScripts:
+      - name: SwiftLint
+        script: |
+          if which swiftlint > /dev/null; then
+            swiftlint
+          else
+            echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
+          fi
+        runOnlyWhenInstalling: false
+
+  BobTheBuilderTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - BobTheBuilderTests
+    dependencies:
+      - target: BobTheBuilder
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.bobthebuilder.app.tests
+        SWIFT_VERSION: "5.5"
+        IPHONEOS_DEPLOYMENT_TARGET: "15.0"
+
+  BobTheBuilderUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - BobTheBuilderUITests
+    dependencies:
+      - target: BobTheBuilder
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.bobthebuilder.app.uitests
+        SWIFT_VERSION: "5.5"
+        IPHONEOS_DEPLOYMENT_TARGET: "15.0"

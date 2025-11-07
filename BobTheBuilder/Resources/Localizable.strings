@@ -1,0 +1,20 @@
+/*
+  Localizable.strings
+  BobTheBuilder
+
+  Created by Bob the Builder Team
+  Copyright © 2024 Bob the Builder Project. All rights reserved.
+*/
+
+// App Name
+"app.name" = "Bob the Builder";
+
+// General
+"general.ok" = "OK";
+"general.cancel" = "Cancel";
+"general.save" = "Save";
+"general.delete" = "Delete";
+"general.edit" = "Edit";
+"general.done" = "Done";
+
+// Future localization strings will be added here

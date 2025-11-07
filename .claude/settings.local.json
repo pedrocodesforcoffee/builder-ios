@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(brew install:*)",
+      "Bash(mkdir:*)",
+      "Bash(brew --version:*)",
+      "Bash(chmod:*)",
+      "Bash(curl:*)",
+      "Bash(unzip:*)",
+      "Bash(~/.local/bin/xcodegen generate:*)",
+      "Bash(xcodebuild:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,148 +1,138 @@
-# Builder iOS - Construction Management Mobile App
+# Bob the Builder iOS App
 
-Native iOS application for Bob the Builder construction management platform
-
-## Tech Stack
-
-- **Language:** Swift 5.9+
-- **UI Framework:** UIKit with SwiftUI components
-- **Architecture:** MVVM-C (Model-View-ViewModel-Coordinator)
-- **Networking:** URLSession with Combine
-- **Storage:** Core Data for offline, Keychain for secure data
-- **Dependency Management:** CocoaPods / Swift Package Manager
-- **CI/CD:** Fastlane
+Native iOS application for Bob the Builder construction management platform, built with SwiftUI.
 
 ## Requirements
 
-- **Xcode:** 15.0 or higher
+- **Xcode:** 14.0 or higher
 - **iOS Deployment Target:** 15.0+
-- **macOS:** 13.0+ (Ventura)
-- **CocoaPods:** Latest version (or Swift Package Manager)
+- **Swift:** 5.5+
+- **macOS:** 13.0+ (Ventura) recommended
 
-## Installation
+## Project Setup
 
-### Clone Repository
+### 1. Clone Repository
 
 ```bash
 git clone https://github.com/bobthebuilder/builder-ios.git
 cd builder-ios
 ```
 
-### Option 1: CocoaPods
+### 2. Generate Xcode Project
+
+This project uses XcodeGen to generate the Xcode project file. This ensures consistent project configuration across the team.
+
+#### Install XcodeGen (if not already installed)
 
 ```bash
-# Install CocoaPods if not already installed
-sudo gem install cocoapods
-
-# Install dependencies
-pod install
-
-# Open workspace
-open BobTheBuilder.xcworkspace
+brew install xcodegen
 ```
 
-### Option 2: Swift Package Manager
+#### Generate the project
 
 ```bash
-# Open project in Xcode
+xcodegen generate
+```
+
+This will create `BobTheBuilder.xcodeproj` from the `project.yml` configuration file.
+
+### 3. Open Project
+
+```bash
 open BobTheBuilder.xcodeproj
-
-# Dependencies will be resolved automatically
 ```
 
-### Automated Setup
+### 4. Configure Signing
 
-Run the setup script:
+1. Select the `BobTheBuilder` target in Xcode
+2. Go to "Signing & Capabilities" tab
+3. Select your development team
+4. Ensure "Automatically manage signing" is enabled
 
-```bash
-chmod +x scripts/setup.sh
-./scripts/setup.sh
-```
+### 5. Build and Run
 
-## Development Workflow
-
-### Build and Run
-
-1. Open `BobTheBuilder.xcworkspace` in Xcode
-2. Select target device or simulator
-3. Press `Cmd + R` to build and run
-
-### Available Schemes
-
-- **BobTheBuilder** - Main app target
-- **BobTheBuilderTests** - Unit and integration tests
-- **BobTheBuilderUITests** - UI tests
-
-### Build Configurations
-
-- **Development** - Debug build with dev API
-- **Staging** - Release build with staging API
-- **Production** - Release build with production API
+Press `⌘+R` to build and run the app in the simulator.
 
 ## Project Structure
 
 ```
 BobTheBuilder/
-├── App/                    # Application lifecycle
-│   ├── AppDelegate.swift
-│   ├── SceneDelegate.swift
-│   └── Info.plist
-├── Core/                   # Core functionality
-│   ├── Network/            # Networking layer
-│   ├── Storage/            # Data persistence
-│   ├── Extensions/         # Swift extensions
-│   └── Utilities/          # Helper utilities
-├── Features/               # Feature modules
-│   ├── Authentication/     # Login, signup
-│   ├── Dashboard/          # Main dashboard
-│   ├── Projects/           # Project management
-│   ├── Resources/          # Resource tracking
-│   └── Settings/           # App settings
-├── Models/                 # Data models
-│   ├── DTOs/               # Data transfer objects
-│   └── CoreData/           # Core Data models
-├── Services/               # Business services
-│   ├── API/                # API clients
-│   ├── Analytics/          # Analytics tracking
-│   └── Push/               # Push notifications
-├── UI/                     # UI components
-│   ├── Components/         # Reusable components
-│   ├── Screens/            # Screen views
-│   ├── Themes/             # Design system
-│   └── Storyboards/        # Interface Builder files
-├── Resources/              # App resources
-│   ├── Assets.xcassets/    # Images, colors
-│   ├── Localizable.strings # Localization
-│   └── LaunchScreen.storyboard
-└── Config/                 # Build configurations
+├── App/                         # Application entry point
+│   ├── BobTheBuilderApp.swift   # SwiftUI App lifecycle
+│   ├── Info.plist               # App configuration
+│   └── BobTheBuilder.entitlements
+├── ContentView.swift            # Main content view
+├── Core/                        # Core functionality
+│   ├── Configuration/           # App configuration
+│   ├── Networking/              # Network layer
+│   └── Utilities/               # Helper utilities
+├── Features/                    # Feature modules
+│   ├── Authentication/          # Login, signup
+│   ├── Projects/                # Project management
+│   ├── RFI/                     # RFI management
+│   └── Settings/                # App settings
+├── Resources/                   # App resources
+│   ├── Assets.xcassets/         # Images, colors, icons
+│   └── Localizable.strings      # Localization strings
+├── Shared/                      # Shared components
+│   ├── Components/              # Reusable UI components
+│   ├── Extensions/              # Swift extensions
+│   └── Models/                  # Data models
+└── Config/                      # Build configurations
     ├── Development.xcconfig
     ├── Staging.xcconfig
     └── Production.xcconfig
 ```
 
+## Tech Stack
+
+- **Language:** Swift 5.5+
+- **UI Framework:** SwiftUI
+- **Architecture:** MVVM (Model-View-ViewModel)
+- **Networking:** URLSession with async/await
+- **Storage:** UserDefaults for settings, Keychain for secure data
+- **Dependency Management:** Swift Package Manager
+- **CI/CD:** Fastlane
+- **Project Generation:** XcodeGen
+
+## Bundle Identifier
+
+- **Production:** `com.bobthebuilder.app`
+- **App Group:** `group.com.bobthebuilder.app`
+
+## Build Configurations
+
+The project supports three build configurations:
+
+- **Debug (Development)** - Debug build with development API endpoints
+- **Staging** - Release build with staging API endpoints
+- **Release (Production)** - Release build with production API endpoints
+
+Configuration is managed through `.xcconfig` files in the `BobTheBuilder/Config/` directory.
+
 ## Testing
 
-### Unit Tests
+### Run Unit Tests
 
 ```bash
 # Command line
-xcodebuild test -workspace BobTheBuilder.xcworkspace \
+xcodebuild test -project BobTheBuilder.xcodeproj \
   -scheme BobTheBuilder \
   -destination 'platform=iOS Simulator,name=iPhone 15'
 
-# Or in Xcode: Cmd + U
+# Or in Xcode: ⌘+U
 ```
 
-### UI Tests
+### Run UI Tests
 
 ```bash
 # Command line
-xcodebuild test -workspace BobTheBuilder.xcworkspace \
+xcodebuild test -project BobTheBuilder.xcodeproj \
   -scheme BobTheBuilder \
   -destination 'platform=iOS Simulator,name=iPhone 15' \
   -only-testing:BobTheBuilderUITests
 
-# Or in Xcode: Select UI test target and Cmd + U
+# Or in Xcode: Select UI test target and ⌘+U
 ```
 
 ### Using Fastlane
@@ -151,69 +141,37 @@ xcodebuild test -workspace BobTheBuilder.xcworkspace \
 fastlane test
 ```
 
-## Code Signing
+## Development Workflow
 
-### Development
+### Adding New Files
 
-1. Open project in Xcode
-2. Select target `BobTheBuilder`
-3. Go to "Signing & Capabilities"
-4. Select your development team
-5. Enable "Automatically manage signing"
+When adding new files or folders to the project:
 
-### Distribution
+1. Create the files in the appropriate directory
+2. Run `xcodegen generate` to update the Xcode project
+3. The project file will automatically include the new files
 
-1. Ensure you have valid distribution certificates
-2. Configure provisioning profiles in Xcode
-3. Or use Fastlane Match for team certificate management
+**Note:** Do not manually modify `BobTheBuilder.xcodeproj` - all changes should be made in `project.yml` and regenerated.
 
-```bash
-fastlane match development
-fastlane match appstore
-```
+### Code Quality
 
-## Deployment
-
-### TestFlight (Beta)
+The project includes a SwiftLint build phase to enforce code style. Install SwiftLint:
 
 ```bash
-# Using Fastlane
-fastlane beta
-
-# Or manually in Xcode:
-# Product > Archive > Distribute App > TestFlight
+brew install swiftlint
 ```
 
-### App Store
+If SwiftLint is not installed, the build will show a warning but will not fail.
 
-```bash
-# Using Fastlane
-fastlane release
+## Capabilities
 
-# Or manually in Xcode:
-# Product > Archive > Distribute App > App Store Connect
-```
+The following capabilities are configured:
 
-## Environment Configuration
+- **App Groups:** `group.com.bobthebuilder.app` - For sharing data between app and extensions (future widgets, etc.)
 
-Environment-specific settings are in `BobTheBuilder/Config/`:
+## Key Features (Planned)
 
-- `Development.xcconfig` - Local development
-- `Staging.xcconfig` - Staging environment
-- `Production.xcconfig` - Production environment
-
-Update API URLs and other settings in these files.
-
-## Documentation
-
-- [Architecture Overview](./docs/ARCHITECTURE.md) - App architecture and design patterns
-- [Project Overview](./docs/PROJECT_OVERVIEW.md) - Project goals and features
-- [Contributing Guidelines](./docs/CONTRIBUTING.md) - How to contribute
-- [Runbook](./docs/RUNBOOK.md) - Operations and deployment guide
-
-## Key Features
-
-- **Offline First:** Full offline support with Core Data
+- **Offline First:** Full offline support
 - **Real-time Sync:** Automatic data synchronization
 - **Photo Capture:** In-app camera for project photos
 - **GPS Tracking:** Location tracking for field workers
@@ -227,13 +185,71 @@ Update API URLs and other settings in these files.
 - View transitions: < 300ms
 - API response handling: < 100ms
 - Image loading: Progressive with caching
-- Battery efficient background sync
 
 ## Minimum Supported Devices
 
-- iPhone: iPhone 8 and newer
-- iPad: iPad (5th generation) and newer
-- iOS Version: 15.0+
+- **iPhone:** iPhone 8 and newer
+- **iPad:** iPad (5th generation) and newer
+- **iOS Version:** 15.0+
+
+## Code Signing
+
+### Development
+
+1. Open project in Xcode
+2. Select target `BobTheBuilder`
+3. Go to "Signing & Capabilities"
+4. Select your development team
+5. Enable "Automatically manage signing"
+
+### Distribution
+
+Distribution will be managed through Fastlane and CI/CD pipelines.
+
+## Deployment
+
+### TestFlight (Beta)
+
+```bash
+# Using Fastlane
+fastlane beta
+```
+
+### App Store
+
+```bash
+# Using Fastlane
+fastlane release
+```
+
+## Documentation
+
+- [Architecture Overview](./docs/ARCHITECTURE.md) - App architecture and design patterns
+- [Project Overview](./docs/PROJECT_OVERVIEW.md) - Project goals and features
+- [Contributing Guidelines](./docs/CONTRIBUTING.md) - How to contribute
+- [Runbook](./docs/RUNBOOK.md) - Operations and deployment guide
+
+## Troubleshooting
+
+### "No such file or directory" errors
+
+If you get build errors about missing files, regenerate the project:
+
+```bash
+xcodegen generate
+```
+
+### Code signing issues
+
+Ensure you have selected a valid development team in "Signing & Capabilities" for each target.
+
+### SwiftLint warnings
+
+Install SwiftLint to see code style warnings:
+
+```bash
+brew install swiftlint
+```
 
 ## Contributing
 
@@ -249,3 +265,8 @@ For issues and questions:
 - GitHub Issues: https://github.com/bobthebuilder/builder-ios/issues
 - Team Slack: #builder-ios channel
 - Email: ios@bobthebuilder.com
+
+---
+
+**Current Version:** 0.1.0 (Build 1)
+**Last Updated:** 2024

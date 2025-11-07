@@ -1,0 +1,45 @@
+//
+//  BobTheBuilderUITests.swift
+//  BobTheBuilderUITests
+//
+//  Created by Bob the Builder Team
+//  Copyright © 2024 Bob the Builder Project. All rights reserved.
+//
+
+import XCTest
+
+final class BobTheBuilderUITests: XCTestCase {
+
+    override func setUpWithError() throws {
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+
+        // In UI tests it is usually best to stop immediately when a failure occurs.
+        continueAfterFailure = false
+
+        // UI tests must launch the application that they test.
+        let app = XCUIApplication()
+        app.launch()
+    }
+
+    override func tearDownWithError() throws {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    }
+
+    func testLaunch() throws {
+        // UI tests must launch the application that they test.
+        let app = XCUIApplication()
+        app.launch()
+
+        // Verify the app launches successfully
+        XCTAssertTrue(app.navigationBars["Bob the Builder"].exists)
+    }
+
+    func testLaunchPerformance() throws {
+        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
+            // This measures how long it takes to launch your application.
+            measure(metrics: [XCTApplicationLaunchMetric()]) {
+                XCUIApplication().launch()
+            }
+        }
+    }
+}
