@@ -137,6 +137,7 @@ targets:
         INFOPLIST_FILE: BobTheBuilder/App/Info.plist
         ASSETCATALOG_COMPILER_APPICON_NAME: $(APP_ICON)
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ENABLE_TESTABILITY: true
         ENABLE_PREVIEWS: YES
     entitlements:
       path: BobTheBuilder/BobTheBuilder.entitlements
@@ -159,9 +160,30 @@ targets:
       - target: BobTheBuilder
     settings:
       base:
+        PRODUCT_NAME: BobTheBuilderTests
         PRODUCT_BUNDLE_IDENTIFIER: com.bobthebuilder.app.tests
+        PRODUCT_MODULE_NAME: BobTheBuilderTests
         SWIFT_VERSION: "5.5"
         IPHONEOS_DEPLOYMENT_TARGET: "15.0"
+      configs:
+        Debug-Dev:
+          TEST_HOST: $(BUILT_PRODUCTS_DIR)/Bob Dev.app/Bob Dev
+          BUNDLE_LOADER: $(TEST_HOST)
+        Debug-Stage:
+          TEST_HOST: $(BUILT_PRODUCTS_DIR)/Bob Stage.app/Bob Stage
+          BUNDLE_LOADER: $(TEST_HOST)
+        Debug-Prod:
+          TEST_HOST: $(BUILT_PRODUCTS_DIR)/Bob.app/Bob
+          BUNDLE_LOADER: $(TEST_HOST)
+        Release-Dev:
+          TEST_HOST: $(BUILT_PRODUCTS_DIR)/Bob Dev.app/Bob Dev
+          BUNDLE_LOADER: $(TEST_HOST)
+        Release-Stage:
+          TEST_HOST: $(BUILT_PRODUCTS_DIR)/Bob Stage.app/Bob Stage
+          BUNDLE_LOADER: $(TEST_HOST)
+        Release-Prod:
+          TEST_HOST: $(BUILT_PRODUCTS_DIR)/Bob.app/Bob
+          BUNDLE_LOADER: $(TEST_HOST)
 
   BobTheBuilderUITests:
     type: bundle.ui-testing
@@ -172,6 +194,8 @@ targets:
       - target: BobTheBuilder
     settings:
       base:
+        PRODUCT_NAME: BobTheBuilderUITests
+        PRODUCT_MODULE_NAME: BobTheBuilderUITests
         PRODUCT_BUNDLE_IDENTIFIER: com.bobthebuilder.app.uitests
         SWIFT_VERSION: "5.5"
         IPHONEOS_DEPLOYMENT_TARGET: "15.0"

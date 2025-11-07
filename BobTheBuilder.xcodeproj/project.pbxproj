@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		00DB61918F9DB2CC9FD16BE6 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417C8F5DA79E54C5FACC258C /* AppCoordinator.swift */; };
 		0133F22551BB3C4C1E22430A /* APIClientProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C911EE8BC5BB43DF376C7A95 /* APIClientProtocol.swift */; };
+		0636760EFF4202A76291293A /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24CA3AA612CB252169C788B /* ModelTests.swift */; };
 		08A17FB7148B8A1B95D41F19 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83421B7BC7D8B1E42BA37D2 /* MainTabView.swift */; };
 		0AB955E105A82683BA982377 /* StateViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2AE096405CF210BA48AF88 /* StateViews.swift */; };
 		1B95C7E5617ED368C4BC98C5 /* BobTheBuilderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EFAFB661E0C07C387F59C3D /* BobTheBuilderUITests.swift */; };
@@ -42,10 +43,12 @@
 		BF12A4E7602571033BBE706D /* RFIListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD27539C27BA28008853D2F6 /* RFIListView.swift */; };
 		CB3C05BDAF9ECF06B64BD0F1 /* NavigationPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E35A2440CC21ACB986EE6BA /* NavigationPath.swift */; };
 		CBCBDDEA3047157E4ED4ABCA /* ProfilePlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E07B45EB801F7BE7476155 /* ProfilePlaceholder.swift */; };
+		CE830730E34C3C0757850B11 /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE180EF8C8524BD2B5BD11D7 /* ViewModelTests.swift */; };
 		D324076BE6D2C8F764928341 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F1241A4F3B3C05C1499519 /* HTTPMethod.swift */; };
 		DB44F3439C78A755B9296D23 /* CreateProjectPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0C4BF2088D993079EAE890 /* CreateProjectPlaceholder.swift */; };
 		E9916A489A4F500F9E42B3E0 /* MockAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AD48B5D4A871165226D4AC /* MockAPIClient.swift */; };
 		EC974DAB6C76D33E61488304 /* HealthCheckRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7CBD4DB169F0907B2BDD5C /* HealthCheckRequest.swift */; };
+		F4834826CC4F417EEC90502D /* ViewStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F849A102455E909FDC6B65 /* ViewStateTests.swift */; };
 		FF8DA714374A583ABF5A8A31 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F8AC45048477C6E027B52D8 /* Localizable.strings */; };
 		FF987EA621EF6FA0EF652F7D /* RFIDetailPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89529D9F6AD7A594E981120C /* RFIDetailPlaceholder.swift */; };
 /* End PBXBuildFile section */
@@ -71,6 +74,7 @@
 		00CBAA5612263A37EBB6CD00 /* BobTheBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobTheBuilderTests.swift; sourceTree = "<group>"; };
 		06CF5C251418AE27532D8997 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		07BF65EC70455C3A793464DE /* ConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationTests.swift; sourceTree = "<group>"; };
+		09F849A102455E909FDC6B65 /* ViewStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStateTests.swift; sourceTree = "<group>"; };
 		0E35A2440CC21ACB986EE6BA /* NavigationPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationPath.swift; sourceTree = "<group>"; };
 		1909BA55E3241187707F601C /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		20AD48B5D4A871165226D4AC /* MockAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPIClient.swift; sourceTree = "<group>"; };
@@ -111,10 +115,12 @@
 		D7E07B45EB801F7BE7476155 /* ProfilePlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePlaceholder.swift; sourceTree = "<group>"; };
 		DC2AE096405CF210BA48AF88 /* StateViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateViews.swift; sourceTree = "<group>"; };
 		DD27539C27BA28008853D2F6 /* RFIListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RFIListView.swift; sourceTree = "<group>"; };
+		DE180EF8C8524BD2B5BD11D7 /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
 		DFDC35938031338A6D859E60 /* AboutPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutPlaceholder.swift; sourceTree = "<group>"; };
 		EA0C4BF2088D993079EAE890 /* CreateProjectPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectPlaceholder.swift; sourceTree = "<group>"; };
 		EDE606EA915D59A9132AE3DC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		EF63CE6A8045DFE9346E0D31 /* BobTheBuilderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobTheBuilderApp.swift; sourceTree = "<group>"; };
+		F24CA3AA612CB252169C788B /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		F83421B7BC7D8B1E42BA37D2 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		FA63D74C01B82EDD6A62F7AF /* ProjectListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -257,6 +263,7 @@
 				07BF65EC70455C3A793464DE /* ConfigurationTests.swift */,
 				1B49BDB5B9D548EFBDEC994C /* Navigation */,
 				40CDF2A2ED3BD31A4C0B95A4 /* Networking */,
+				A6997FE5846AD2E84211FA40 /* Views */,
 			);
 			path = BobTheBuilderTests;
 			sourceTree = "<group>";
@@ -285,6 +292,16 @@
 				FA63D74C01B82EDD6A62F7AF /* ProjectListView.swift */,
 			);
 			path = Projects;
+			sourceTree = "<group>";
+		};
+		A6997FE5846AD2E84211FA40 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F24CA3AA612CB252169C788B /* ModelTests.swift */,
+				DE180EF8C8524BD2B5BD11D7 /* ViewModelTests.swift */,
+				09F849A102455E909FDC6B65 /* ViewStateTests.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		ABBC379C35773BFF01CD83A0 /* Configuration */ = {
@@ -542,7 +559,10 @@
 				81EA79B45CA4404647B5CBF1 /* APIClientTests.swift in Sources */,
 				864F85F6297982B6B1476740 /* BobTheBuilderTests.swift in Sources */,
 				69B98CDC52623D8086536DA7 /* ConfigurationTests.swift in Sources */,
+				0636760EFF4202A76291293A /* ModelTests.swift in Sources */,
 				8FE91D6264DCAEE55558029C /* NavigationTests.swift in Sources */,
+				CE830730E34C3C0757850B11 /* ViewModelTests.swift in Sources */,
+				F4834826CC4F417EEC90502D /* ViewStateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -571,6 +591,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
@@ -596,10 +617,13 @@
 		18C68BEA9AE3AE57E4BA1478 /* Debug-Stage */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.tests;
+				PRODUCT_MODULE_NAME = BobTheBuilderTests;
+				PRODUCT_NAME = BobTheBuilderTests;
 				SWIFT_VERSION = 5.5;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bob Stage.app/Bob Stage";
 			};
 			name = "Debug-Stage";
 		};
@@ -608,6 +632,8 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
+				PRODUCT_MODULE_NAME = BobTheBuilderUITests;
+				PRODUCT_NAME = BobTheBuilderUITests;
 				SWIFT_VERSION = 5.5;
 				TEST_TARGET_NAME = BobTheBuilder;
 			};
@@ -650,6 +676,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
@@ -661,10 +688,13 @@
 		63791CEED52BCE301C8DFCBA /* Debug-Prod */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.tests;
+				PRODUCT_MODULE_NAME = BobTheBuilderTests;
+				PRODUCT_NAME = BobTheBuilderTests;
 				SWIFT_VERSION = 5.5;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bob.app/Bob";
 			};
 			name = "Debug-Prod";
 		};
@@ -673,6 +703,8 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
+				PRODUCT_MODULE_NAME = BobTheBuilderUITests;
+				PRODUCT_NAME = BobTheBuilderUITests;
 				SWIFT_VERSION = 5.5;
 				TEST_TARGET_NAME = BobTheBuilder;
 			};
@@ -683,6 +715,8 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
+				PRODUCT_MODULE_NAME = BobTheBuilderUITests;
+				PRODUCT_NAME = BobTheBuilderUITests;
 				SWIFT_VERSION = 5.5;
 				TEST_TARGET_NAME = BobTheBuilder;
 			};
@@ -711,6 +745,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
@@ -728,6 +763,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
@@ -739,10 +775,13 @@
 		B6630D9BA64E0B4CCF70177F /* Debug-Dev */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.tests;
+				PRODUCT_MODULE_NAME = BobTheBuilderTests;
+				PRODUCT_NAME = BobTheBuilderTests;
 				SWIFT_VERSION = 5.5;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bob Dev.app/Bob Dev";
 			};
 			name = "Debug-Dev";
 		};
@@ -755,6 +794,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
@@ -766,10 +806,13 @@
 		BBC16AE3F3274984F71EDDBF /* Release-Dev */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.tests;
+				PRODUCT_MODULE_NAME = BobTheBuilderTests;
+				PRODUCT_NAME = BobTheBuilderTests;
 				SWIFT_VERSION = 5.5;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bob Dev.app/Bob Dev";
 			};
 			name = "Release-Dev";
 		};
@@ -778,6 +821,8 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
+				PRODUCT_MODULE_NAME = BobTheBuilderUITests;
+				PRODUCT_NAME = BobTheBuilderUITests;
 				SWIFT_VERSION = 5.5;
 				TEST_TARGET_NAME = BobTheBuilder;
 			};
@@ -788,6 +833,8 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
+				PRODUCT_MODULE_NAME = BobTheBuilderUITests;
+				PRODUCT_NAME = BobTheBuilderUITests;
 				SWIFT_VERSION = 5.5;
 				TEST_TARGET_NAME = BobTheBuilder;
 			};
@@ -798,6 +845,8 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.uitests;
+				PRODUCT_MODULE_NAME = BobTheBuilderUITests;
+				PRODUCT_NAME = BobTheBuilderUITests;
 				SWIFT_VERSION = 5.5;
 				TEST_TARGET_NAME = BobTheBuilder;
 			};
@@ -806,10 +855,13 @@
 		C9CEB25F0BB337F35EE37954 /* Release-Stage */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.tests;
+				PRODUCT_MODULE_NAME = BobTheBuilderTests;
+				PRODUCT_NAME = BobTheBuilderTests;
 				SWIFT_VERSION = 5.5;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bob Stage.app/Bob Stage";
 			};
 			name = "Release-Stage";
 		};
@@ -822,6 +874,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = BobTheBuilder/App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
@@ -847,10 +900,13 @@
 		DB64B56F1108F5B76B0A8A16 /* Release-Prod */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bobthebuilder.app.tests;
+				PRODUCT_MODULE_NAME = BobTheBuilderTests;
+				PRODUCT_NAME = BobTheBuilderTests;
 				SWIFT_VERSION = 5.5;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BobTheBuilder.app/BobTheBuilder";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bob.app/Bob";
 			};
 			name = "Release-Prod";
 		};

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import BobTheBuilder
+@testable import Bob_Dev
 
 class APIClientTests: XCTestCase {
     var mockClient: MockAPIClient!

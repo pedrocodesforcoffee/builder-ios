@@ -8,7 +8,7 @@
 
 import XCTest
 import SwiftUI
-@testable import BobTheBuilder
+@testable import Bob_Dev
 
 @MainActor
 final class NavigationTests: XCTestCase {
