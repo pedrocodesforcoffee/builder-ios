@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -127,21 +127,21 @@
 			);
 			sourceTree = "<group>";
 		};
-		"TEMP_0D2CD213-2906-4E51-93E7-B883E11D2A76" /* Features */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Features;
-			sourceTree = "<group>";
-		};
-		"TEMP_11E83166-7C9A-4FC5-9FAA-E0752A3C19C2" /* Shared */ = {
+		"TEMP_2266DF6A-706E-48B4-8E94-E055DBDDAA1F" /* Shared */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = Shared;
 			sourceTree = "<group>";
 		};
-		"TEMP_F71CC10E-0FE1-4DFB-87F4-048C15F4BC36" /* Core */ = {
+		"TEMP_28DCE103-7AE8-46B3-BF42-B7432833D525" /* Features */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		"TEMP_C31DBDFE-B1F3-4243-859E-36DBA879324F" /* Core */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -164,8 +164,6 @@
 			dependencies = (
 			);
 			name = BobTheBuilder;
-			packageProductDependencies = (
-			);
 			productName = BobTheBuilder;
 			productReference = 963760C24FD6A1DA963A9350 /* BobTheBuilder.app */;
 			productType = "com.apple.product-type.application";
@@ -182,8 +180,6 @@
 				F6C2FB7C4DBD20EFBAC728C9 /* PBXTargetDependency */,
 			);
 			name = BobTheBuilderUITests;
-			packageProductDependencies = (
-			);
 			productName = BobTheBuilderUITests;
 			productReference = 6391783685AF514B0DE2E0D5 /* BobTheBuilderUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -200,8 +196,6 @@
 				FCFBB87D1BF425F0294AB087 /* PBXTargetDependency */,
 			);
 			name = BobTheBuilderTests;
-			packageProductDependencies = (
-			);
 			productName = BobTheBuilderTests;
 			productReference = 6E68C909D635408FC01A91B1 /* BobTheBuilderTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -212,7 +206,6 @@
 		5F9E014D449D39A808926ABF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					07FB0CF7E081E07C3DC84E90 = {
@@ -229,7 +222,7 @@
 				};
 			};
 			buildConfigurationList = FF29D55E1A2AAA3C17318A68 /* Build configuration list for PBXProject "BobTheBuilder" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -237,8 +230,6 @@
 				en,
 			);
 			mainGroup = E6CA80FBD054829B65950B18;
-			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (

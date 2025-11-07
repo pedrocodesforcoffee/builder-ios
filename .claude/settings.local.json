@@ -10,7 +10,8 @@
       "Bash(~/.local/bin/xcodegen generate:*)",
       "Bash(xcodebuild:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(~/.local/bin/xcodegen:*)"
     ],
     "deny": [],
     "ask": []
