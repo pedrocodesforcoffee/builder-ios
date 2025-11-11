@@ -30,6 +30,8 @@ struct MainTabView: View {
     @ViewBuilder
     private func rootView(for tab: TabItem) -> some View {
         switch tab {
+        case .dashboard:
+            DashboardView()
         case .projects:
             ProjectListView()
         case .rfis:

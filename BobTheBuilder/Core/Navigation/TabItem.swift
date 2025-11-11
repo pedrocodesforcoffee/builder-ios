@@ -9,12 +9,14 @@
 import SwiftUI
 
 enum TabItem: String, CaseIterable {
+    case dashboard = "Dashboard"
     case projects = "Projects"
     case rfis = "RFIs"
     case settings = "Settings"
 
     var systemImage: String {
         switch self {
+        case .dashboard: return "house.fill"
         case .projects: return "hammer.fill"
         case .rfis: return "doc.text.fill"
         case .settings: return "gearshape.fill"
@@ -23,6 +25,7 @@ enum TabItem: String, CaseIterable {
 
     var selectedSystemImage: String {
         switch self {
+        case .dashboard: return "house.fill"
         case .projects: return "hammer.fill"
         case .rfis: return "doc.text.fill"
         case .settings: return "gearshape.fill"

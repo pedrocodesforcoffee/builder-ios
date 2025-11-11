@@ -2,93 +2,119 @@
 //  Project.swift
 //  BobTheBuilder
 //
-//  Created by Bob the Builder Team
-//  Copyright © 2024 Bob the Builder Project. All rights reserved.
+//  Created on November 10, 2025.
 //
 
 import Foundation
 import SwiftUI
 
-struct Project: Identifiable, Codable {
+struct Project: Identifiable, Codable, Hashable {
     let id: String
     let name: String
-    let status: ProjectStatus
-    let progress: Double
-    let dueDate: Date?
-    let location: String?
+    let code: String
     let description: String?
+    let status: String
+    let startDate: String?
+    let endDate: String?
+    let actualCompletionDate: String?
+    let location: String?
+    let organizationId: String
+    let organizationName: String?
+    let createdAt: String
+    let updatedAt: String?
 
-    enum ProjectStatus: String, CaseIterable, Codable {
-        case planning = "Planning"
-        case active = "Active"
-        case onHold = "On Hold"
-        case completed = "Completed"
+    // Project settings
+    let settings: ProjectSettings?
 
-        var color: Color {
-            switch self {
-            case .planning: return .blue
-            case .active: return .green
-            case .onHold: return .orange
-            case .completed: return .gray
-            }
+    var statusEnum: ProjectStatus {
+        ProjectStatus(rawValue: status.uppercased()) ?? .planning
+    }
+
+    var progress: Double {
+        guard let start = startDate?.toDate(),
+              let end = endDate?.toDate() else {
+            return 0
         }
 
-        var icon: String {
-            switch self {
-            case .planning: return "lightbulb"
-            case .active: return "hammer.fill"
-            case .onHold: return "pause.circle"
-            case .completed: return "checkmark.circle"
-            }
+        let now = Date()
+        guard now > start else { return 0 }
+        guard now < end else { return 100 }
+
+        let totalDuration = end.timeIntervalSince(start)
+        let elapsed = now.timeIntervalSince(start)
+
+        let progress = (elapsed / totalDuration) * 100
+        return min(max(progress, 0), 100)
+    }
+
+    var daysRemaining: Int? {
+        guard let end = endDate?.toDate() else { return nil }
+        let days = Calendar.current.dateComponents([.day], from: Date(), to: end).day
+        return days
+    }
+
+    var isOverdue: Bool {
+        guard let end = endDate?.toDate() else { return false }
+        return Date() > end && statusEnum != .completed
+    }
+}
+
+struct ProjectSettings: Codable, Hashable {
+    let budget: Double?
+    let currency: String?
+    let timezone: String?
+}
+
+enum ProjectStatus: String, Codable {
+    case planning = "PLANNING"
+    case active = "ACTIVE"
+    case onHold = "ON_HOLD"
+    case completed = "COMPLETED"
+    case cancelled = "CANCELLED"
+
+    var displayName: String {
+        switch self {
+        case .planning: return "Planning"
+        case .active: return "Active"
+        case .onHold: return "On Hold"
+        case .completed: return "Completed"
+        case .cancelled: return "Cancelled"
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .planning: return .blue
+        case .active: return .green
+        case .onHold: return .orange
+        case .completed: return .gray
+        case .cancelled: return .red
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .planning: return "calendar"
+        case .active: return "play.circle.fill"
+        case .onHold: return "pause.circle.fill"
+        case .completed: return "checkmark.circle.fill"
+        case .cancelled: return "xmark.circle.fill"
         }
     }
 }
 
-// MARK: - Mock Data for Development
+// MARK: - Extensions
 
-extension Project {
-    static var mockProjects: [Project] {
-        [
-            Project(
-                id: "1",
-                name: "Downtown Office Complex",
-                status: .active,
-                progress: 0.65,
-                dueDate: Date().addingTimeInterval(86400 * 30),
-                location: "123 Main St, Downtown",
-                description: "Modern 15-story office building with retail space"
-            ),
-            Project(
-                id: "2",
-                name: "Riverside Apartments",
-                status: .planning,
-                progress: 0.15,
-                dueDate: Date().addingTimeInterval(86400 * 90),
-                location: "456 River Rd",
-                description: "Luxury residential complex with 200 units"
-            ),
-            Project(
-                id: "3",
-                name: "Shopping Center Renovation",
-                status: .onHold,
-                progress: 0.40,
-                dueDate: nil,
-                location: "789 Mall Ave",
-                description: "Complete renovation of existing shopping center"
-            ),
-            Project(
-                id: "4",
-                name: "City Hall Restoration",
-                status: .completed,
-                progress: 1.0,
-                dueDate: Date().addingTimeInterval(-86400 * 10),
-                location: "City Center",
-                description: "Historical restoration project"
-            )
-        ]
+extension String {
+    func toDate() -> Date? {
+        let formatter = ISO8601DateFormatter()
+        return formatter.date(from: self)
     }
 
-    static var sample: Project {
-        mockProjects[0]
+    func toFormattedDate() -> String? {
+        guard let date = self.toDate() else { return nil }
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter.string(from: date)
     }
 }
