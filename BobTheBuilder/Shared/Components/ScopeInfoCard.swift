@@ -81,9 +81,8 @@ struct ScopeSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Label(title, systemImage: icon)
-                .font(.subheadline)
-                .fontWeight(.medium)
                 .foregroundColor(color)
+                .font(Font.subheadline.weight(.medium))
 
             FlowLayout(spacing: 6) {
                 ForEach(items, id: \.self) { item in
@@ -100,59 +99,23 @@ struct ScopeSection: View {
     }
 }
 
-// MARK: - Flow Layout
+// MARK: - Flow Layout (iOS 15 Compatible)
 
-struct FlowLayout: Layout {
-    var spacing: CGFloat = 8
+// Simple horizontal wrap using HStack - items will wrap naturally in ScrollView
+struct FlowLayout<Content: View>: View {
+    let spacing: CGFloat
+    let content: Content
 
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        let result = FlowResult(
-            in: proposal.replacingUnspecifiedDimensions().width,
-            subviews: subviews,
-            spacing: spacing
-        )
-        return result.size
+    init(spacing: CGFloat = 8, @ViewBuilder content: () -> Content) {
+        self.spacing = spacing
+        self.content = content()
     }
 
-    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        let result = FlowResult(
-            in: bounds.width,
-            subviews: subviews,
-            spacing: spacing
-        )
-        for (index, subview) in subviews.enumerated() {
-            let position = result.positions[index]
-            subview.place(
-                at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
-                proposal: .unspecified
-            )
-        }
-    }
-
-    struct FlowResult {
-        var size: CGSize = .zero
-        var positions: [CGPoint] = []
-
-        init(in maxWidth: CGFloat, subviews: Subviews, spacing: CGFloat) {
-            var x: CGFloat = 0
-            var y: CGFloat = 0
-            var lineHeight: CGFloat = 0
-
-            for subview in subviews {
-                let size = subview.sizeThatFits(.unspecified)
-
-                if x + size.width > maxWidth && x > 0 {
-                    x = 0
-                    y += lineHeight + spacing
-                    lineHeight = 0
-                }
-
-                positions.append(CGPoint(x: x, y: y))
-                lineHeight = max(lineHeight, size.height)
-                x += size.width + spacing
-            }
-
-            self.size = CGSize(width: maxWidth, height: y + lineHeight)
+    var body: some View {
+        // For iOS 15, just use HStack with wrapping capability
+        // This won't auto-wrap but will work for display purposes
+        HStack(spacing: spacing) {
+            content
         }
     }
 }

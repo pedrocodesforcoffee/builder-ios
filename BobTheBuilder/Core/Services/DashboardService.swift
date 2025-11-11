@@ -42,7 +42,8 @@ final class DashboardService: ObservableObject {
         await withTaskGroup(of: Void.self) { group in
             group.addTask { await self.fetchOrganizations() }
             group.addTask { await self.fetchProjects() }
-            group.addTask { await self.fetchActivities() }
+            // Activities endpoint not yet implemented in backend
+            // group.addTask { await self.fetchActivities() }
         }
 
         isLoading = false
@@ -54,9 +55,9 @@ final class DashboardService: ObservableObject {
 
         do {
             let request = GetOrganizationsRequest()
-            let response = try await apiClient.execute(request)
-            self.organizations = response.data
-            print("✅ Fetched \(response.data.count) organizations")
+            let organizations = try await apiClient.execute(request)
+            self.organizations = organizations
+            print("✅ Fetched \(organizations.count) organizations")
         } catch {
             self.error = error
             print("❌ Failed to fetch organizations: \(error.localizedDescription)")
@@ -70,10 +71,11 @@ final class DashboardService: ObservableObject {
         isLoadingProjects = true
 
         do {
-            let request = GetProjectsRequest(status: status, limit: limit)
-            let response = try await apiClient.execute(request)
-            self.projects = response.data
-            print("✅ Fetched \(response.data.count) projects")
+            let request = DashboardGetProjectsRequest(status: status)
+            let projects = try await apiClient.execute(request)
+            // Limit results client-side since API doesn't support limit parameter
+            self.projects = Array(projects.prefix(limit))
+            print("✅ Fetched \(self.projects.count) projects")
         } catch {
             self.error = error
             print("❌ Failed to fetch projects: \(error.localizedDescription)")
@@ -197,10 +199,10 @@ struct OrganizationStatistics {
 // MARK: - API Requests
 
 struct GetOrganizationsRequest: APIRequest {
-    typealias Response = OrganizationListResponse
+    typealias Response = [Organization]
 
     var path: String {
-        "/api/organizations"
+        "/organizations"
     }
 
     var method: HTTPMethod {
@@ -208,14 +210,13 @@ struct GetOrganizationsRequest: APIRequest {
     }
 }
 
-struct GetProjectsRequest: APIRequest {
-    typealias Response = ProjectListResponse
+struct DashboardGetProjectsRequest: APIRequest {
+    typealias Response = [Project]
 
     let status: String?
-    let limit: Int
 
     var path: String {
-        "/api/projects"
+        "/projects"
     }
 
     var method: HTTPMethod {
@@ -223,11 +224,11 @@ struct GetProjectsRequest: APIRequest {
     }
 
     var parameters: [String: Any]? {
-        var params: [String: Any] = ["limit": limit]
+        var params: [String: Any] = [:]
         if let status = status {
             params["status"] = status
         }
-        return params
+        return params.isEmpty ? nil : params
     }
 }
 
@@ -237,7 +238,7 @@ struct GetActivitiesRequest: APIRequest {
     let limit: Int
 
     var path: String {
-        "/api/activities"
+        "/activities"
     }
 
     var method: HTTPMethod {

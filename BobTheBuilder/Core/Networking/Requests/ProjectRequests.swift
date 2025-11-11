@@ -10,31 +10,33 @@ import Foundation
 // MARK: - Get Projects Request
 
 struct GetProjectsRequest: APIRequest {
-    typealias Response = ProjectsResponse
+    typealias Response = [Project]
 
     var path: String { "/projects" }
     var method: HTTPMethod { .get }
     var parameters: [String: Any]? {
-        return [
-            "page": page,
-            "limit": limit
-        ]
+        var params: [String: Any] = [:]
+
+        if let organizationId = organizationId {
+            params["organizationId"] = organizationId
+        }
+        if let status = status {
+            params["status"] = status
+        }
+        params["myProjects"] = myProjects
+
+        return params.isEmpty ? nil : params
     }
 
-    let page: Int
-    let limit: Int
+    let organizationId: String?
+    let status: String?
+    let myProjects: Bool
 
-    init(page: Int = 1, limit: Int = 20) {
-        self.page = page
-        self.limit = limit
+    init(organizationId: String? = nil, status: String? = nil, myProjects: Bool = true) {
+        self.organizationId = organizationId
+        self.status = status
+        self.myProjects = myProjects
     }
-}
-
-struct ProjectsResponse: Codable {
-    let projects: [Project]
-    let total: Int
-    let page: Int
-    let totalPages: Int
 }
 
 // MARK: - Get Project Detail Request
@@ -88,7 +90,7 @@ struct UpdateProjectRequest: APIRequest {
     let name: String?
     let description: String?
     let location: String?
-    let status: Project.ProjectStatus?
+    let status: ProjectStatus?
     let progress: Double?
 
     var path: String { "/projects/\(projectId)" }

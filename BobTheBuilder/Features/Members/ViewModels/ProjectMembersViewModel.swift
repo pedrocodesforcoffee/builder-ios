@@ -52,7 +52,7 @@ final class ProjectMembersViewModel: ObservableObject {
 
             // Remove from local list
             members.removeAll { $0.id == member.id }
-            print("✅ Removed member: \(member.user.name)")
+            print("✅ Removed member: \(member.user.fullName)")
         } catch {
             self.error = error
             print("❌ Failed to remove member: \(error.localizedDescription)")

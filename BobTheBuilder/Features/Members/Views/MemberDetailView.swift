@@ -12,7 +12,7 @@ struct MemberDetailView: View {
     let projectId: String
     let viewModel: ProjectMembersViewModel
 
-    @Environment(\.dismiss) var dismiss
+    @SwiftUI.Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var permissionService: PermissionService
     @State private var showEditSheet = false
     @State private var showRemoveAlert = false
@@ -42,19 +42,13 @@ struct MemberDetailView: View {
                     .clipShape(Circle())
 
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(member.user.name)
+                        Text(member.user.fullName)
                             .font(.title2)
                             .fontWeight(.bold)
 
                         Text(member.user.email)
                             .font(.subheadline)
                             .foregroundColor(.secondary)
-
-                        if let company = member.user.company {
-                            Label(company, systemImage: "building.2")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
                     }
                 }
                 .padding(.vertical, 8)
@@ -157,10 +151,20 @@ struct MemberDetailView: View {
 
             // Membership Details
             Section(header: Text("Membership")) {
-                LabeledContent("Joined", value: member.joinedAt.formatted(date: .long, time: .omitted))
+                HStack {
+                    Text("Joined")
+                        .foregroundColor(.secondary)
+                    Spacer()
+                    Text(member.joinedAt.formatted(date: .long, time: .omitted))
+                }
 
                 if let invitedBy = member.invitedBy {
-                    LabeledContent("Invited By", value: invitedBy.name)
+                    HStack {
+                        Text("Invited By")
+                            .foregroundColor(.secondary)
+                        Spacer()
+                        Text(invitedBy.fullName)
+                    }
                 }
             }
 
@@ -212,7 +216,7 @@ struct MemberDetailView: View {
                 }
             }
         } message: {
-            Text("Are you sure you want to remove \(member.user.name) from this project? This action cannot be undone.")
+            Text("Are you sure you want to remove \(member.user.fullName) from this project? This action cannot be undone.")
         }
         .alert("Error", isPresented: $showErrorAlert) {
             Button("OK", role: .cancel) {}
@@ -251,7 +255,7 @@ struct MemberDetailView: View {
             showErrorAlert = true
         } else {
             // Only dismiss if no error occurred
-            dismiss()
+            presentationMode.wrappedValue.dismiss()
         }
     }
 }

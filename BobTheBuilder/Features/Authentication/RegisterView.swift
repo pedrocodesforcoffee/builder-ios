@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RegisterView: View {
     @StateObject private var viewModel = RegisterViewModel()
-    @Environment(\.presentationMode) var presentationMode
+    @SwiftUI.Environment(\.presentationMode) var presentationMode
     @FocusState private var focusedField: Field?
 
     enum Field: Hashable {

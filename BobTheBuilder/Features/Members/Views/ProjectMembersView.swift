@@ -135,7 +135,7 @@ struct ProjectMembersView: View {
         // Search filter
         if !searchText.isEmpty {
             members = members.filter {
-                $0.user.name.localizedCaseInsensitiveContains(searchText) ||
+                $0.user.fullName.localizedCaseInsensitiveContains(searchText) ||
                 $0.user.email.localizedCaseInsensitiveContains(searchText)
             }
         }
@@ -190,7 +190,7 @@ struct MemberRow: View {
 
             // Info
             VStack(alignment: .leading, spacing: 4) {
-                Text(member.user.name)
+                Text(member.user.fullName)
                     .font(.headline)
 
                 HStack(spacing: 6) {
@@ -274,7 +274,7 @@ struct MemberStatusIndicator: View {
 
 struct FilterSheet: View {
     @Binding var selectedRole: ProjectRole?
-    @Environment(\.dismiss) var dismiss
+    @SwiftUI.Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         NavigationView {
@@ -282,7 +282,7 @@ struct FilterSheet: View {
                 Section(header: Text("Filter by Role")) {
                     Button {
                         selectedRole = nil
-                        dismiss()
+                        presentationMode.wrappedValue.dismiss()
                     } label: {
                         HStack {
                             Text("All Roles")
@@ -298,7 +298,7 @@ struct FilterSheet: View {
                     ForEach(ProjectRole.allCases) { role in
                         Button {
                             selectedRole = role
-                            dismiss()
+                            presentationMode.wrappedValue.dismiss()
                         } label: {
                             HStack {
                                 Label {
@@ -323,7 +323,7 @@ struct FilterSheet: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Done") {
-                        dismiss()
+                        presentationMode.wrappedValue.dismiss()
                     }
                 }
             }

@@ -33,10 +33,15 @@ struct User: Codable, Hashable {
     let lastName: String
     let phoneNumber: String?
     let avatar: String?
-    let roles: [String]
+    let role: String  // API returns single role
     let organizations: [UserOrganization]?
     let createdAt: String?
     let updatedAt: String?
+
+    // Computed property for backwards compatibility
+    var roles: [String] {
+        return [role]
+    }
 
     var fullName: String {
         "\(firstName) \(lastName)"
@@ -49,11 +54,11 @@ struct User: Codable, Hashable {
     }
 
     var primaryRole: String? {
-        return roles.first
+        return role
     }
 
     var formattedRoles: String {
-        return roles.map { formatRole($0) }.joined(separator: ", ")
+        return formatRole(role)
     }
 
     private func formatRole(_ role: String) -> String {
@@ -62,12 +67,17 @@ struct User: Codable, Hashable {
             .capitalized
     }
 
-    // Backend uses camelCase, so no CodingKeys needed for most fields
+    var avatarURL: URL? {
+        guard let avatar = avatar else { return nil }
+        return URL(string: avatar)
+    }
+
+    // Backend uses camelCase, so no CodingKeys needed
 }
 
 // MARK: - User Organization
 
-struct UserOrganization: Codable {
+struct UserOrganization: Codable, Hashable {
     let id: String
     let name: String
     let type: String

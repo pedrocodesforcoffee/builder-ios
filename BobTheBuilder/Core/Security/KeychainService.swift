@@ -38,6 +38,13 @@ final class KeychainService {
     private let serviceName = "com.bobthebuilder.app"
     private let accessGroup = "group.com.bobthebuilder.app"
 
+    // Disable access group in simulator/debug to avoid keychain errors
+    #if targetEnvironment(simulator) || DEBUG
+    private let useAccessGroup = false
+    #else
+    private let useAccessGroup = true
+    #endif
+
     private init() {}
 
     // MARK: - Generic Save/Load
@@ -57,12 +64,15 @@ final class KeychainService {
     }
 
     func delete(key: String) throws {
-        let query: [String: Any] = [
+        var query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: serviceName,
-            kSecAttrAccount as String: key,
-            kSecAttrAccessGroup as String: accessGroup
+            kSecAttrAccount as String: key
         ]
+
+        if useAccessGroup {
+            query[kSecAttrAccessGroup as String] = accessGroup
+        }
 
         let status = SecItemDelete(query as CFDictionary)
 
@@ -72,11 +82,14 @@ final class KeychainService {
     }
 
     func deleteAll() throws {
-        let query: [String: Any] = [
+        var query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: serviceName,
-            kSecAttrAccessGroup as String: accessGroup
+            kSecAttrService as String: serviceName
         ]
+
+        if useAccessGroup {
+            query[kSecAttrAccessGroup as String] = accessGroup
+        }
 
         let status = SecItemDelete(query as CFDictionary)
 
@@ -97,10 +110,13 @@ final class KeychainService {
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: serviceName,
             kSecAttrAccount as String: key,
-            kSecAttrAccessGroup as String: accessGroup,
             kSecValueData as String: data,
             kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
         ]
+
+        if useAccessGroup {
+            query[kSecAttrAccessGroup as String] = accessGroup
+        }
 
         // Add biometric protection if required
         if requiresBiometric {
@@ -134,10 +150,13 @@ final class KeychainService {
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: serviceName,
             kSecAttrAccount as String: key,
-            kSecAttrAccessGroup as String: accessGroup,
             kSecReturnData as String: true,
             kSecMatchLimit as String: kSecMatchLimitOne
         ]
+
+        if useAccessGroup {
+            query[kSecAttrAccessGroup as String] = accessGroup
+        }
 
         // Use provided context for biometric authentication
         if let context = context {
@@ -167,13 +186,16 @@ final class KeychainService {
     // MARK: - Convenience Methods
 
     func exists(key: String) -> Bool {
-        let query: [String: Any] = [
+        var query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: serviceName,
             kSecAttrAccount as String: key,
-            kSecAttrAccessGroup as String: accessGroup,
             kSecReturnData as String: false
         ]
+
+        if useAccessGroup {
+            query[kSecAttrAccessGroup as String] = accessGroup
+        }
 
         let status = SecItemCopyMatching(query as CFDictionary, nil)
         return status == errSecSuccess

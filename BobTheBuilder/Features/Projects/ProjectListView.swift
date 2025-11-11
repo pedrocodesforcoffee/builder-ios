@@ -89,8 +89,6 @@ class ProjectListViewModel: ObservableObject {
 
     private let apiClient = APIClient.shared
     private let authManager = AuthManager.shared
-    private var currentPage = 1
-    private var hasMorePages = true
 
     func loadProjects() {
         guard authManager.isAuthenticated else {
@@ -102,13 +100,11 @@ class ProjectListViewModel: ObservableObject {
 
         Task {
             do {
-                let request = GetProjectsRequest(page: 1, limit: 20)
-                let response = try await apiClient.execute(request)
+                let request = GetProjectsRequest()
+                let projects = try await apiClient.execute(request)
 
                 await MainActor.run {
-                    self.currentPage = 1
-                    self.hasMorePages = response.page < response.totalPages
-                    self.viewState = response.projects.isEmpty ? .empty : .loaded(response.projects)
+                    self.viewState = projects.isEmpty ? .empty : .loaded(projects)
                 }
             } catch {
                 await MainActor.run {
@@ -122,13 +118,11 @@ class ProjectListViewModel: ObservableObject {
         isRefreshing = true
 
         do {
-            let request = GetProjectsRequest(page: 1, limit: 20)
-            let response = try await apiClient.execute(request)
+            let request = GetProjectsRequest()
+            let projects = try await apiClient.execute(request)
 
             await MainActor.run {
-                self.currentPage = 1
-                self.hasMorePages = response.page < response.totalPages
-                self.viewState = response.projects.isEmpty ? .empty : .loaded(response.projects)
+                self.viewState = projects.isEmpty ? .empty : .loaded(projects)
                 self.isRefreshing = false
             }
         } catch {
@@ -136,27 +130,6 @@ class ProjectListViewModel: ObservableObject {
                 self.isRefreshing = false
                 // Don't change viewState on refresh error, keep existing data
             }
-        }
-    }
-
-    func loadMoreProjects() async {
-        guard hasMorePages,
-              case .loaded(let currentProjects) = viewState else { return }
-
-        do {
-            let request = GetProjectsRequest(page: currentPage + 1, limit: 20)
-            let response = try await apiClient.execute(request)
-
-            await MainActor.run {
-                self.currentPage += 1
-                self.hasMorePages = response.page < response.totalPages
-
-                let allProjects = currentProjects + response.projects
-                self.viewState = .loaded(allProjects)
-            }
-        } catch {
-            // Silently fail for pagination
-            print("Failed to load more projects: \(error)")
         }
     }
 }
@@ -172,12 +145,12 @@ struct ProjectRow: View {
                 Text(project.name)
                     .font(.headline)
                 Spacer()
-                Image(systemName: project.status.icon)
-                    .foregroundColor(project.status.color)
+                Image(systemName: project.statusEnum.icon)
+                    .foregroundColor(project.statusEnum.color)
             }
 
             HStack {
-                StatusBadge(status: project.status.rawValue, color: project.status.color)
+                StatusBadge(status: project.statusEnum.rawValue, color: project.statusEnum.color)
 
                 projectLocationView
 
@@ -188,7 +161,7 @@ struct ProjectRow: View {
 
             if project.progress > 0 {
                 ProgressView(value: project.progress)
-                    .tint(project.status.color)
+                    .tint(project.statusEnum.color)
             }
         }
         .padding(.vertical, 4)
@@ -208,9 +181,9 @@ struct ProjectRow: View {
 
     @ViewBuilder
     private var projectDueDateView: some View {
-        if let dueDate = project.dueDate {
+        if let endDate = project.endDate, let date = endDate.toDate() {
             Label(
-                dueDate.formatted(date: .abbreviated, time: .omitted),
+                date.formatted(date: .abbreviated, time: .omitted),
                 systemImage: "calendar"
             )
             .font(.caption)
@@ -247,12 +220,10 @@ struct ProjectListView_Previews: PreviewProvider {
     }
 }
 
-struct ProjectRow_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            ProjectRow(project: Project.sample)
-            ProjectRow(project: Project.mockProjects[1])
-            ProjectRow(project: Project.mockProjects[2])
-        }
-    }
-}
+// struct ProjectRow_Previews: PreviewProvider {
+//     static var previews: some View {
+//         List {
+//             // Preview commented out - requires mock data
+//         }
+//     }
+// }

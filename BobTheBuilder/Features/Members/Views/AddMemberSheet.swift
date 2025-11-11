@@ -36,7 +36,10 @@ struct AddMemberSheet: View {
         NavigationView {
             Form {
                 // User Selection Section
-                Section(header: Text("User")) {
+                Section(
+                    header: Text("User"),
+                    footer: Text("In production, this would search your organization members").font(.caption)
+                ) {
                     HStack {
                         TextField("Enter user email or ID...", text: $searchText)
                             .textInputAutocapitalization(.never)
@@ -61,9 +64,6 @@ struct AddMemberSheet: View {
                                 .foregroundColor(.secondary)
                         }
                     }
-                } footer: {
-                    Text("In production, this would search your organization members")
-                        .font(.caption)
                 }
 
                 // Role Selection
@@ -94,7 +94,10 @@ struct AddMemberSheet: View {
 
                 // Scope Section (if required)
                 if selectedRole.requiresScope {
-                    Section(header: Text("Access Scope")) {
+                    Section(
+                        header: Text("Access Scope"),
+                        footer: Text("This role requires scope assignment to limit access to specific trades, areas, or phases")
+                    ) {
                         Button {
                             showScopeSelector = true
                         } label: {
@@ -145,13 +148,14 @@ struct AddMemberSheet: View {
                                     .foregroundColor(.secondary)
                             }
                         }
-                    } footer: {
-                        Text("This role requires scope assignment to limit access to specific trades, areas, or phases")
                     }
                 }
 
                 // Expiration Section
-                Section(header: Text("Expiration (Optional)")) {
+                Section(
+                    header: Text("Expiration (Optional)"),
+                    footer: Text("Set for temporary contractors, inspectors, or consultants")
+                ) {
                     Toggle("Set Expiration Date", isOn: $hasExpiration)
 
                     if hasExpiration {
@@ -164,8 +168,6 @@ struct AddMemberSheet: View {
 
                         TextField("Reason (optional)", text: $expirationReason)
                     }
-                } footer: {
-                    Text("Set for temporary contractors, inspectors, or consultants")
                 }
             }
             .navigationTitle("Add Member")

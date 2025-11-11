@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ScopeSelectorView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @SwiftUI.Environment(\.presentationMode) var presentationMode
     @Binding var selectedScope: UserScope?
 
     let projectId: String

@@ -223,11 +223,11 @@ final class AppCoordinator: ObservableObject {
         let targetTab: TabItem
 
         switch destination {
-        case .projectDetail, .createProject:
+        case .projectDetail, .createProject, .projects:
             targetTab = .projects
         case .rfiDetail, .createRFI:
             targetTab = .rfis
-        case .settings, .profile, .about:
+        case .settings, .profile, .about, .organizations:
             targetTab = .settings
         }
 

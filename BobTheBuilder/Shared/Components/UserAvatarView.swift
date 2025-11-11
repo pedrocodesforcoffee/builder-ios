@@ -72,7 +72,7 @@ struct UserAvatarView_Previews: PreviewProvider {
             lastName: "Doe",
             phoneNumber: "555-1234",
             avatar: nil,
-            roles: ["GENERAL_CONTRACTOR_ADMIN"],
+            role: "user",
             organizations: nil,
             createdAt: nil,
             updatedAt: nil

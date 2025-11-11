@@ -124,7 +124,10 @@ struct EditMemberSheet: View {
 
                 // Scope Section
                 if selectedRole.requiresScope {
-                    Section(header: Text("Access Scope")) {
+                    Section(
+                        header: Text("Access Scope"),
+                        footer: Text("This role requires scope assignment to limit access")
+                    ) {
                         Button {
                             showScopeSelector = true
                         } label: {
@@ -175,8 +178,6 @@ struct EditMemberSheet: View {
                                     .foregroundColor(.secondary)
                             }
                         }
-                    } footer: {
-                        Text("This role requires scope assignment to limit access")
                     }
                 }
 

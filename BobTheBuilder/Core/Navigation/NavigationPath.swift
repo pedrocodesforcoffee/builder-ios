@@ -18,6 +18,8 @@ enum NavigationDestination: Hashable, Codable {
     case profile
     case settings
     case about
+    case projects
+    case organizations
 
     var id: String {
         switch self {
@@ -28,6 +30,8 @@ enum NavigationDestination: Hashable, Codable {
         case .profile: return "profile"
         case .settings: return "settings"
         case .about: return "about"
+        case .projects: return "projects"
+        case .organizations: return "organizations"
         }
     }
 
@@ -37,6 +41,8 @@ enum NavigationDestination: Hashable, Codable {
         case .projectDetail, .rfiDetail, .createProject, .createRFI:
             return true
         case .profile, .settings:
+            return true
+        case .projects, .organizations:
             return true
         case .about:
             return false
@@ -99,6 +105,8 @@ class NavigationPathManager: ObservableObject {
         }
 
         switch selectedTab {
+        case .dashboard:
+            break
         case .projects:
             projectsPath.append(destination)
         case .rfis:
@@ -114,6 +122,8 @@ class NavigationPathManager: ObservableObject {
         let targetTab = tab ?? selectedTab
 
         switch targetTab {
+        case .dashboard:
+            break
         case .projects:
             projectsPath.removeAll()
         case .rfis:
@@ -127,6 +137,8 @@ class NavigationPathManager: ObservableObject {
         let targetTab = tab ?? selectedTab
 
         switch targetTab {
+        case .dashboard:
+            break
         case .projects:
             if !projectsPath.isEmpty { projectsPath.removeLast() }
         case .rfis:
@@ -167,6 +179,8 @@ class NavigationPathManager: ObservableObject {
         }
 
         switch selectedTab {
+        case .dashboard:
+            break
         case .projects:
             projectsPath.append(destination)
         case .rfis:
