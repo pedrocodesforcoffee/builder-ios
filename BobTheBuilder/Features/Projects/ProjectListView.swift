@@ -14,45 +14,47 @@ struct ProjectListView: View {
     @State private var searchText = ""
 
     var body: some View {
-        ZStack {
-            if viewModel.viewState.isLoading {
-                LoadingStateView(message: "Loading projects...")
-            } else if viewModel.viewState.isEmpty {
-                EmptyStateView(
-                    icon: "hammer.fill",
-                    title: "No Projects Yet",
-                    message: "Tap + to create your first project",
-                    actionTitle: "Create Project",
-                    action: {
-                        navigationManager.navigate(to: .createProject)
-                    }
-                )
-            } else if let error = viewModel.viewState.error {
-                ErrorStateView(
-                    error: error.localizedDescription,
-                    retry: {
-                        viewModel.loadProjects()
-                    }
-                )
-            } else if let projects = viewModel.viewState.data {
-                projectList(projects: projects)
-            }
-        }
-        .navigationTitle("Projects")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    navigationManager.navigate(to: .createProject)
-                }) {
-                    Image(systemName: "plus")
+        ProtectedView(requiresAuth: true) {
+            ZStack {
+                if viewModel.viewState.isLoading {
+                    LoadingStateView(message: "Loading projects...")
+                } else if viewModel.viewState.isEmpty {
+                    EmptyStateView(
+                        icon: "hammer.fill",
+                        title: "No Projects Yet",
+                        message: "Tap + to create your first project",
+                        actionTitle: "Create Project",
+                        action: {
+                            navigationManager.navigate(to: .createProject)
+                        }
+                    )
+                } else if let error = viewModel.viewState.error {
+                    ErrorStateView(
+                        error: error.localizedDescription,
+                        retry: {
+                            viewModel.loadProjects()
+                        }
+                    )
+                } else if let projects = viewModel.viewState.data {
+                    projectList(projects: projects)
                 }
             }
-        }
-        .onAppear {
-            viewModel.loadProjects()
-        }
-        .refreshable {
-            await viewModel.refreshProjects()
+            .navigationTitle("Projects")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        navigationManager.navigate(to: .createProject)
+                    }) {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
+            .onAppear {
+                viewModel.loadProjects()
+            }
+            .refreshable {
+                await viewModel.refreshProjects()
+            }
         }
     }
 
@@ -80,42 +82,81 @@ struct ProjectListView: View {
 
 // MARK: - Project List View Model
 
+@MainActor
 class ProjectListViewModel: ObservableObject {
     @Published var viewState: ViewState<[Project]> = .idle
+    @Published var isRefreshing = false
+
+    private let apiClient = APIClient.shared
+    private let authManager = AuthManager.shared
+    private var currentPage = 1
+    private var hasMorePages = true
 
     func loadProjects() {
-        guard viewState.isIdle else { return }
+        guard authManager.isAuthenticated else {
+            viewState = .error(AuthError.sessionExpired)
+            return
+        }
 
         viewState = .loading
 
-        // Simulate API call
         Task {
-            try? await Task.sleep(nanoseconds: 1_000_000_000) // 1 second
+            do {
+                let request = GetProjectsRequest(page: 1, limit: 20)
+                let response = try await apiClient.execute(request)
 
-            await MainActor.run {
-                let projects = Project.mockProjects
-
-                if projects.isEmpty {
-                    viewState = .empty
-                } else {
-                    viewState = .loaded(projects)
+                await MainActor.run {
+                    self.currentPage = 1
+                    self.hasMorePages = response.page < response.totalPages
+                    self.viewState = response.projects.isEmpty ? .empty : .loaded(response.projects)
+                }
+            } catch {
+                await MainActor.run {
+                    self.viewState = .error(error)
                 }
             }
         }
     }
 
     func refreshProjects() async {
-        // Simulate API call without showing loading state
-        try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
+        isRefreshing = true
 
-        await MainActor.run {
-            let projects = Project.mockProjects
+        do {
+            let request = GetProjectsRequest(page: 1, limit: 20)
+            let response = try await apiClient.execute(request)
 
-            if projects.isEmpty {
-                viewState = .empty
-            } else {
-                viewState = .loaded(projects)
+            await MainActor.run {
+                self.currentPage = 1
+                self.hasMorePages = response.page < response.totalPages
+                self.viewState = response.projects.isEmpty ? .empty : .loaded(response.projects)
+                self.isRefreshing = false
             }
+        } catch {
+            await MainActor.run {
+                self.isRefreshing = false
+                // Don't change viewState on refresh error, keep existing data
+            }
+        }
+    }
+
+    func loadMoreProjects() async {
+        guard hasMorePages,
+              case .loaded(let currentProjects) = viewState else { return }
+
+        do {
+            let request = GetProjectsRequest(page: currentPage + 1, limit: 20)
+            let response = try await apiClient.execute(request)
+
+            await MainActor.run {
+                self.currentPage += 1
+                self.hasMorePages = response.page < response.totalPages
+
+                let allProjects = currentProjects + response.projects
+                self.viewState = .loaded(allProjects)
+            }
+        } catch {
+            // Silently fail for pagination
+            print("Failed to load more projects: \(error)")
         }
     }
 }

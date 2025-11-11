@@ -125,6 +125,11 @@ targets:
         NSCameraUsageDescription: "We need access to your camera to capture project photos."
         NSPhotoLibraryUsageDescription: "We need access to your photo library to save and select project photos."
         NSLocationWhenInUseUsageDescription: "We need your location to track project sites and field work."
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: false
+          NSExceptionDomains:
+            localhost:
+              NSExceptionAllowsInsecureHTTPLoads: true
         API_BASE_URL: $(API_BASE_URL)
         ENVIRONMENT: $(ENVIRONMENT)
     settings:

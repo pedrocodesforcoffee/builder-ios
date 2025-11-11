@@ -15,49 +15,51 @@ struct RFIListView: View {
     @State private var filterStatus: RFIFilterStatus = .all
 
     var body: some View {
-        ZStack {
-            if viewModel.viewState.isLoading {
-                LoadingStateView(message: "Loading RFIs...")
-            } else if viewModel.viewState.isEmpty {
-                EmptyStateView(
-                    icon: "doc.text.fill",
-                    title: "No RFIs Yet",
-                    message: "Tap + to create your first RFI",
-                    actionTitle: "Create RFI",
-                    action: {
-                        navigationManager.navigate(to: .createRFI(projectId: "1"))
-                    }
-                )
-            } else if let error = viewModel.viewState.error {
-                ErrorStateView(
-                    error: error.localizedDescription,
-                    retry: {
-                        viewModel.loadRFIs()
-                    }
-                )
-            } else if let rfis = viewModel.viewState.data {
-                rfiList(rfis: rfis)
-            }
-        }
-        .navigationTitle("RFIs")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Menu {
-                    Button(action: {
-                        navigationManager.navigate(to: .createRFI(projectId: "1"))
-                    }) {
-                        Label("New RFI", systemImage: "plus")
-                    }
-                } label: {
-                    Image(systemName: "plus")
+        ProtectedView(requiresAuth: true) {
+            ZStack {
+                if viewModel.viewState.isLoading {
+                    LoadingStateView(message: "Loading RFIs...")
+                } else if viewModel.viewState.isEmpty {
+                    EmptyStateView(
+                        icon: "doc.text.fill",
+                        title: "No RFIs Yet",
+                        message: "Tap + to create your first RFI",
+                        actionTitle: "Create RFI",
+                        action: {
+                            navigationManager.navigate(to: .createRFI(projectId: "1"))
+                        }
+                    )
+                } else if let error = viewModel.viewState.error {
+                    ErrorStateView(
+                        error: error.localizedDescription,
+                        retry: {
+                            viewModel.loadRFIs()
+                        }
+                    )
+                } else if let rfis = viewModel.viewState.data {
+                    rfiList(rfis: rfis)
                 }
             }
-        }
-        .onAppear {
-            viewModel.loadRFIs()
-        }
-        .refreshable {
-            await viewModel.refreshRFIs()
+            .navigationTitle("RFIs")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Menu {
+                        Button(action: {
+                            navigationManager.navigate(to: .createRFI(projectId: "1"))
+                        }) {
+                            Label("New RFI", systemImage: "plus")
+                        }
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
+            .onAppear {
+                viewModel.loadRFIs()
+            }
+            .refreshable {
+                await viewModel.refreshRFIs()
+            }
         }
     }
 

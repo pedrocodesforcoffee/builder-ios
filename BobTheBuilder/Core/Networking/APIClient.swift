@@ -23,10 +23,11 @@ final class APIClient: APIClientProtocol {
     }
 
     func execute<T: APIRequest>(_ request: T) async throws -> T.Response {
-        let urlRequest = try buildURLRequest(from: request)
+        var urlRequest = try buildURLRequest(from: request)
 
         var lastError: Error?
         var retryCount = 0
+        var shouldRetryWith401 = true
 
         while retryCount <= request.maxRetries {
             if retryCount > 0 {
@@ -42,10 +43,44 @@ final class APIClient: APIClientProtocol {
 
                 logger.logResponse(response, data: data, error: nil)
 
+                // Check for 401 Unauthorized
+                if let httpResponse = response as? HTTPURLResponse,
+                   httpResponse.statusCode == 401,
+                   shouldRetryWith401 {
+
+                    print("⚠️ Received 401, triggering token refresh")
+
+                    // Post notification for auth manager to handle
+                    NotificationCenter.default.post(name: .unauthorizedResponse, object: nil)
+
+                    // Wait a bit for token refresh
+                    try await Task.sleep(nanoseconds: 2_000_000_000) // 2 seconds
+
+                    // Only retry 401 once per request
+                    shouldRetryWith401 = false
+
+                    // Rebuild request with new token
+                    urlRequest = try buildURLRequest(from: request)
+
+                    // Retry with new token
+                    let (retryData, retryResponse) = try await session.data(for: urlRequest)
+
+                    logger.logResponse(retryResponse, data: retryData, error: nil)
+
+                    try validateResponse(retryResponse, data: retryData)
+
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    decoder.dateDecodingStrategy = .iso8601
+
+                    return try decoder.decode(T.Response.self, from: retryData)
+                }
+
                 try validateResponse(response, data: data)
 
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
+                decoder.dateDecodingStrategy = .iso8601
 
                 return try decoder.decode(T.Response.self, from: data)
 
@@ -93,6 +128,11 @@ final class APIClient: APIClientProtocol {
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
         urlRequest.setValue("iOS/\(AppConfiguration.shared.appVersion)", forHTTPHeaderField: "User-Agent")
+
+        // Add authentication token if available
+        if let token = TokenManager.shared.getAccessToken() {
+            urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
 
         // Custom headers
         request.headers?.forEach { key, value in

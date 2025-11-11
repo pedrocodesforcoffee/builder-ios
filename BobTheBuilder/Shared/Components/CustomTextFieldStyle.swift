@@ -10,17 +10,22 @@ import SwiftUI
 
 struct CustomTextFieldStyle: TextFieldStyle {
     let systemImage: String
+    var isError: Bool = false
 
     func _body(configuration: TextField<Self._Label>) -> some View {
         HStack {
             Image(systemName: systemImage)
-                .foregroundColor(.gray)
+                .foregroundColor(isError ? .red : .gray)
                 .frame(width: 20)
 
             configuration
         }
         .padding()
         .background(Color(.systemGray6))
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(isError ? Color.red : Color.clear, lineWidth: 1)
+        )
         .cornerRadius(10)
     }
 }

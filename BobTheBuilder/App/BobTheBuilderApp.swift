@@ -10,58 +10,66 @@ import SwiftUI
 
 @main
 struct BobTheBuilderApp: App {
-    @StateObject private var coordinator = AppCoordinator.shared
-
-    init() {
-        setupApp()
-    }
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
         WindowGroup {
-            ZStack {
-                if coordinator.isLoading {
-                    LoadingView()
-                } else if coordinator.showOnboarding {
-                    OnboardingView()
-                } else if !coordinator.isAuthenticated {
-                    LoginView()
-                } else {
-                    MainTabView()
-                }
-            }
-            .onOpenURL { url in
-                coordinator.handleDeepLink(url)
-            }
-            .alert(item: $coordinator.appError) { error in
-                Alert(
-                    title: Text(error.title),
-                    message: Text(error.message),
-                    dismissButton: .default(Text("OK")) {
-                        error.dismissAction?()
-                    }
-                )
-            }
+            RootView()
+                .preferredColorScheme(.none) // Respect system setting
         }
     }
+}
 
-    // MARK: - Private Methods
+// App Delegate for additional setup
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication,
+                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-    private func setupApp() {
-        // Configure app-wide settings
+        // Configure app appearance
         configureAppearance()
+
+        // Setup deep linking
+        setupDeepLinking()
+
+        return true
+    }
+
+    func application(_ app: UIApplication,
+                    open url: URL,
+                    options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        // Handle custom URL schemes
+        AppCoordinator.shared.handleDeepLink(url)
+        return true
+    }
+
+    func application(_ application: UIApplication,
+                    continue userActivity: NSUserActivity,
+                    restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        // Handle universal links
+        if userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+           let url = userActivity.webpageURL {
+            AppCoordinator.shared.handleDeepLink(url)
+            return true
+        }
+        return false
     }
 
     private func configureAppearance() {
-        // Configure navigation bar appearance
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        // Navigation bar appearance
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithDefaultBackground()
+        UINavigationBar.appearance().standardAppearance = navBarAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
 
-        // Configure tab bar appearance
+        // Tab bar appearance
         let tabBarAppearance = UITabBarAppearance()
-        tabBarAppearance.configureWithOpaqueBackground()
+        tabBarAppearance.configureWithDefaultBackground()
         UITabBar.appearance().standardAppearance = tabBarAppearance
         UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+    }
+
+    private func setupDeepLinking() {
+        // Register for custom URL scheme
+        // This is configured in Info.plist
     }
 }

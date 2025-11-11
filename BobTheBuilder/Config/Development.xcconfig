@@ -8,7 +8,8 @@ APP_VERSION = 0.1.0
 BUILD_NUMBER = 1
 
 // API Configuration
-API_BASE_URL = https:/$()/api-dev.bobthebuilder.com
+// Local development server
+API_BASE_URL = http:/$()/localhost:3000/api
 API_TIMEOUT = 30.0
 
 // Environment
