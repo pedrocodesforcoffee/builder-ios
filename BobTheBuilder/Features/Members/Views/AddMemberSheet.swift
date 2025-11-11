@@ -11,7 +11,7 @@ struct AddMemberSheet: View {
     let projectId: String
     let viewModel: ProjectMembersViewModel
 
-    @Environment(\.dismiss) var dismiss
+    @SwiftUI.Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var permissionService: PermissionService
 
     @State private var selectedRole: ProjectRole = .viewer
@@ -40,7 +40,7 @@ struct AddMemberSheet: View {
                     HStack {
                         TextField("Enter user email or ID...", text: $searchText)
                             .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled()
+                            .disableAutocorrection(true)
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.secondary)
                     }
@@ -79,8 +79,8 @@ struct AddMemberSheet: View {
                             .tag(role)
                         }
                     }
-                    .pickerStyle(.navigationLink)
-                    .onChange(of: selectedRole) { oldValue, newValue in
+                    .pickerStyle(.automatic)
+                    .onChange(of: selectedRole) { newValue in
                         // Clear scope when switching to a role that doesn't require it
                         if !newValue.requiresScope {
                             selectedScope = nil
@@ -173,7 +173,7 @@ struct AddMemberSheet: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
-                        dismiss()
+                        presentationMode.wrappedValue.dismiss()
                     }
                     .disabled(isSubmitting)
                 }
@@ -250,7 +250,7 @@ struct AddMemberSheet: View {
             await viewModel.loadMembers()
 
             isSubmitting = false
-            dismiss()
+            presentationMode.wrappedValue.dismiss()
         } catch {
             isSubmitting = false
             errorMessage = error.localizedDescription
