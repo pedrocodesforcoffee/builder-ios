@@ -12,7 +12,7 @@ struct EditMemberSheet: View {
     let projectId: String
     let viewModel: ProjectMembersViewModel
 
-    @Environment(\.presentationMode) var presentationMode
+    @SwiftUI.Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var permissionService: PermissionService
 
     @State private var selectedRole: ProjectRole
@@ -100,7 +100,7 @@ struct EditMemberSheet: View {
                             .tag(role)
                         }
                     }
-                    .pickerStyle(NavigationLinkPickerStyle())
+                    .pickerStyle(.automatic)
                     .onChange(of: selectedRole) { newValue in
                         // Clear scope when switching to a role that doesn't require it
                         if !newValue.requiresScope {

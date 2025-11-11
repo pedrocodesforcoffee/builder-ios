@@ -26,7 +26,7 @@ struct LoginResponse: Codable {
 
 // MARK: - User Model
 
-struct User: Codable {
+struct User: Codable, Hashable {
     let id: String
     let email: String
     let firstName: String

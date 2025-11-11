@@ -22,16 +22,17 @@ struct OrganizationsSection: View {
 
                 Spacer()
 
-                if !organizations.isEmpty {
-                    Button(action: {
-                        // Navigate to organizations list
-                        navigationManager.navigate(to: .organizations)
-                    }) {
-                        Text("See All")
-                            .font(.subheadline)
-                            .foregroundColor(.blue)
-                    }
-                }
+                // TODO: Add "See All" button when organizations list view is implemented
+                // if !organizations.isEmpty {
+                //     Button(action: {
+                //         // Navigate to organizations list
+                //         navigationManager.navigate(to: .organizations)
+                //     }) {
+                //         Text("See All")
+                //             .font(.subheadline)
+                //             .foregroundColor(.blue)
+                //     }
+                // }
             }
             .padding(.horizontal)
 

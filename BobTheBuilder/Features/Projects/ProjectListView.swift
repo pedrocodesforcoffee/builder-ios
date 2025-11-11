@@ -179,25 +179,11 @@ struct ProjectRow: View {
             HStack {
                 StatusBadge(status: project.status.rawValue, color: project.status.color)
 
-                if let location = project.location {
-                    Text("•")
-                        .foregroundColor(.secondary)
-                    Label(location, systemImage: "location.fill")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .lineLimit(1)
-                }
+                projectLocationView
 
                 Spacer()
 
-                if let dueDate = project.dueDate {
-                    Label(
-                        dueDate.formatted(date: .abbreviated, time: .omitted),
-                        systemImage: "calendar"
-                    )
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                }
+                projectDueDateView
             }
 
             if project.progress > 0 {
@@ -206,6 +192,30 @@ struct ProjectRow: View {
             }
         }
         .padding(.vertical, 4)
+    }
+
+    @ViewBuilder
+    private var projectLocationView: some View {
+        if let location = project.location {
+            Text("•")
+                .foregroundColor(.secondary)
+            Label(location, systemImage: "location.fill")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .lineLimit(1)
+        }
+    }
+
+    @ViewBuilder
+    private var projectDueDateView: some View {
+        if let dueDate = project.dueDate {
+            Label(
+                dueDate.formatted(date: .abbreviated, time: .omitted),
+                systemImage: "calendar"
+            )
+            .font(.caption)
+            .foregroundColor(.secondary)
+        }
     }
 }
 
