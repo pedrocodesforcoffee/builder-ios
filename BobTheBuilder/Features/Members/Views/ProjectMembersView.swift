@@ -279,7 +279,7 @@ struct FilterSheet: View {
     var body: some View {
         NavigationView {
             List {
-                Section("Filter by Role") {
+                Section(header: Text("Filter by Role")) {
                     Button {
                         selectedRole = nil
                         dismiss()

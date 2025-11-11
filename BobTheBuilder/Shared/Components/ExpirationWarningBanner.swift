@@ -36,7 +36,7 @@ struct ExpirationWarningBanner: View {
                     } label: {
                         Text("Request Extension")
                             .font(.subheadline)
-                            .fontWeight(.semibold)
+                            
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 10)
                             .background(Color.white)
@@ -77,7 +77,7 @@ struct ExpirationWarningBanner: View {
                         } label: {
                             Text("Request Extension")
                                 .font(.subheadline)
-                                .fontWeight(.semibold)
+                                
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 10)
                                 .background(Color.white)
@@ -108,14 +108,14 @@ struct ExpirationWarningBanner: View {
 // MARK: - Renewal Request Sheet
 
 struct RenewalRequestSheet: View {
-    @Environment(\.dismiss) var dismiss
+    @SwiftUI.Environment(\.presentationMode) var presentationMode
     @State private var reason = ""
     @State private var isSubmitting = false
 
     var body: some View {
         NavigationView {
             Form {
-                Section("Request Details") {
+                Section(header: Text("Request Details")) {
                     TextEditor(text: $reason)
                         .frame(minHeight: 100)
                         .overlay(
@@ -144,7 +144,7 @@ struct RenewalRequestSheet: View {
                         } else {
                             Text("Submit Request")
                                 .frame(maxWidth: .infinity)
-                                .fontWeight(.semibold)
+                                
                         }
                     }
                     .disabled(reason.isEmpty || isSubmitting)
@@ -155,7 +155,7 @@ struct RenewalRequestSheet: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
-                        dismiss()
+                        presentationMode.wrappedValue.dismiss()
                     }
                 }
             }
@@ -167,7 +167,7 @@ struct RenewalRequestSheet: View {
         // TODO: Implement API call to submit renewal request
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             isSubmitting = false
-            dismiss()
+            presentationMode.wrappedValue.dismiss()
         }
     }
 }

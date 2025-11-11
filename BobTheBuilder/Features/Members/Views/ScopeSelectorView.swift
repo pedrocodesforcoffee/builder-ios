@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ScopeSelectorView: View {
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.presentationMode) var presentationMode
     @Binding var selectedScope: UserScope?
 
     let projectId: String
@@ -105,7 +105,7 @@ struct ScopeSelectorView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
-                        dismiss()
+                        presentationMode.wrappedValue.dismiss()
                     }
                 }
 
@@ -129,7 +129,7 @@ struct ScopeSelectorView: View {
             areas: selectedAreas.isEmpty ? nil : Array(selectedAreas),
             phases: selectedPhases.isEmpty ? nil : Array(selectedPhases)
         )
-        dismiss()
+        presentationMode.wrappedValue.dismiss()
     }
 }
 

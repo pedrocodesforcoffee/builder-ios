@@ -36,7 +36,7 @@ struct AddMemberSheet: View {
         NavigationView {
             Form {
                 // User Selection Section
-                Section("User") {
+                Section(header: Text("User")) {
                     HStack {
                         TextField("Enter user email or ID...", text: $searchText)
                             .textInputAutocapitalization(.never)
@@ -67,7 +67,7 @@ struct AddMemberSheet: View {
                 }
 
                 // Role Selection
-                Section("Role") {
+                Section(header: Text("Role")) {
                     Picker("Select Role", selection: $selectedRole) {
                         ForEach(ProjectRole.allCases) { role in
                             Label {
@@ -94,7 +94,7 @@ struct AddMemberSheet: View {
 
                 // Scope Section (if required)
                 if selectedRole.requiresScope {
-                    Section("Access Scope") {
+                    Section(header: Text("Access Scope")) {
                         Button {
                             showScopeSelector = true
                         } label: {
@@ -151,7 +151,7 @@ struct AddMemberSheet: View {
                 }
 
                 // Expiration Section
-                Section("Expiration (Optional)") {
+                Section(header: Text("Expiration (Optional)")) {
                     Toggle("Set Expiration Date", isOn: $hasExpiration)
 
                     if hasExpiration {

@@ -104,5 +104,3 @@ struct RemoveMemberRequest: APIRequest {
 struct ProjectMembersResponse: Codable {
     let members: [ProjectMember]
 }
-
-struct EmptyResponse: Codable {}

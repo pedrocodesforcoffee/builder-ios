@@ -39,7 +39,7 @@ struct RecentProjectsSection: View {
             } else {
                 VStack(spacing: 12) {
                     ForEach(projects.prefix(5)) { project in
-                        ProjectRow(project: project)
+                        DashboardProjectRow(project: project)
                             .onTapGesture {
                                 navigationManager.navigate(to: .projectDetail(projectId: project.id))
                             }
@@ -51,7 +51,7 @@ struct RecentProjectsSection: View {
     }
 }
 
-struct ProjectRow: View {
+struct DashboardProjectRow: View {
     let project: Project
 
     var body: some View {

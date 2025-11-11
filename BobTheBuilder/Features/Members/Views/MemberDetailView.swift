@@ -61,7 +61,7 @@ struct MemberDetailView: View {
             }
 
             // Role Section
-            Section("Role") {
+            Section(header: Text("Role")) {
                 HStack {
                     Image(systemName: member.role.icon)
                         .foregroundColor(member.role.color)
@@ -88,7 +88,7 @@ struct MemberDetailView: View {
 
             // Scope Section
             if let scope = member.scope, !scope.isEmpty {
-                Section("Access Scope") {
+                Section(header: Text("Access Scope")) {
                     if let trades = scope.trades, !trades.isEmpty {
                         DisclosureGroup {
                             ForEach(trades, id: \.self) { trade in
@@ -123,7 +123,7 @@ struct MemberDetailView: View {
 
             // Expiration Section
             if let expiresAt = member.expiresAt {
-                Section("Access Expiration") {
+                Section(header: Text("Access Expiration")) {
                     let daysRemaining = member.daysUntilExpiration ?? 0
 
                     HStack {
@@ -156,7 +156,7 @@ struct MemberDetailView: View {
             }
 
             // Membership Details
-            Section("Membership") {
+            Section(header: Text("Membership")) {
                 LabeledContent("Joined", value: member.joinedAt.formatted(date: .long, time: .omitted))
 
                 if let invitedBy = member.invitedBy {

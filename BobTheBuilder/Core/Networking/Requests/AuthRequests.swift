@@ -71,7 +71,8 @@ struct RegisterAPIRequest: APIRequest {
             email: email,
             password: password,
             firstName: firstName,
-            lastName: lastName
+            lastName: lastName,
+            phoneNumber: nil
         ))
     }
 }
@@ -83,6 +84,7 @@ struct LogoutAPIRequest: APIRequest {
 
     var path: String { "/auth/logout" }
     var method: HTTPMethod { .post }
+    var body: Data? { nil }
 }
 
 // MARK: - Empty Response

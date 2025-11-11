@@ -12,7 +12,7 @@ struct EditMemberSheet: View {
     let projectId: String
     let viewModel: ProjectMembersViewModel
 
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var permissionService: PermissionService
 
     @State private var selectedRole: ProjectRole
@@ -47,26 +47,37 @@ struct EditMemberSheet: View {
         NavigationView {
             Form {
                 // Member Info Section
-                Section("Member") {
+                Section(header: Text("Member")) {
                     HStack(spacing: 12) {
-                        AsyncImage(url: member.user.avatarURL) { image in
-                            image
-                                .resizable()
-                                .scaledToFill()
-                        } placeholder: {
+                        if let avatarURL = member.user.avatar, let url = URL(string: avatarURL) {
+                            AsyncImage(url: url) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                            } placeholder: {
+                                Circle()
+                                    .fill(member.role.color.opacity(0.3))
+                                    .overlay(
+                                        Text(member.user.initials)
+                                            .font(.title3)
+                                            .foregroundColor(member.role.color)
+                                    )
+                            }
+                            .frame(width: 50, height: 50)
+                            .clipShape(Circle())
+                        } else {
                             Circle()
                                 .fill(member.role.color.opacity(0.3))
+                                .frame(width: 50, height: 50)
                                 .overlay(
                                     Text(member.user.initials)
                                         .font(.title3)
                                         .foregroundColor(member.role.color)
                                 )
                         }
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
 
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(member.user.name)
+                            Text(member.user.fullName)
                                 .font(.headline)
                             Text(member.user.email)
                                 .font(.caption)
@@ -77,7 +88,7 @@ struct EditMemberSheet: View {
                 }
 
                 // Role Selection
-                Section("Role") {
+                Section(header: Text("Role")) {
                     Picker("Select Role", selection: $selectedRole) {
                         ForEach(ProjectRole.allCases) { role in
                             Label {
@@ -89,8 +100,8 @@ struct EditMemberSheet: View {
                             .tag(role)
                         }
                     }
-                    .pickerStyle(.navigationLink)
-                    .onChange(of: selectedRole) { oldValue, newValue in
+                    .pickerStyle(NavigationLinkPickerStyle())
+                    .onChange(of: selectedRole) { newValue in
                         // Clear scope when switching to a role that doesn't require it
                         if !newValue.requiresScope {
                             selectedScope = nil
@@ -113,7 +124,7 @@ struct EditMemberSheet: View {
 
                 // Scope Section
                 if selectedRole.requiresScope {
-                    Section("Access Scope") {
+                    Section(header: Text("Access Scope")) {
                         Button {
                             showScopeSelector = true
                         } label: {
@@ -170,7 +181,12 @@ struct EditMemberSheet: View {
                 }
 
                 // Expiration Section
-                Section("Expiration") {
+                Section(
+                    header: Text("Expiration"),
+                    footer: member.expiresAt != nil && !hasExpiration ?
+                        Text("Removing expiration will grant permanent access") :
+                        Text("Set for temporary access periods")
+                ) {
                     Toggle("Set Expiration Date", isOn: $hasExpiration)
 
                     if hasExpiration {
@@ -183,17 +199,11 @@ struct EditMemberSheet: View {
 
                         TextField("Reason (optional)", text: $expirationReason)
                     }
-                } footer: {
-                    if member.expiresAt != nil && !hasExpiration {
-                        Text("Removing expiration will grant permanent access")
-                    } else {
-                        Text("Set for temporary access periods")
-                    }
                 }
 
                 // Change Summary
                 if hasChanges {
-                    Section("Changes") {
+                    Section(header: Text("Changes")) {
                         if selectedRole != member.role {
                             HStack {
                                 Text("Role")
@@ -242,7 +252,7 @@ struct EditMemberSheet: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
-                        dismiss()
+                        presentationMode.wrappedValue.dismiss()
                     }
                     .disabled(isSubmitting)
                 }
@@ -335,7 +345,7 @@ struct EditMemberSheet: View {
             await viewModel.loadMembers()
 
             isSubmitting = false
-            dismiss()
+            presentationMode.wrappedValue.dismiss()
         } catch {
             isSubmitting = false
             errorMessage = error.localizedDescription

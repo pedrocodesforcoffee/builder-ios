@@ -92,11 +92,11 @@ struct ErrorBanner: View {
             case .networkError:
                 return "Network connection error. Check your internet connection"
             case .serverError(let message):
-                return message ?? "Server error occurred"
+                return message
             case .decodingError:
                 return "Failed to process server response"
-            case .invalidResponse:
-                return "Invalid response from server"
+            default:
+                return apiError.errorDescription ?? "An error occurred"
             }
         }
         return error.localizedDescription

@@ -86,7 +86,7 @@ struct RootView: View {
     private func startApp() {
         Task {
             // Initialize auth state
-            await authManager.checkAuthenticationStatus()
+            authManager.checkAuthenticationStatus()
 
             // Small delay for splash screen
             try? await Task.sleep(nanoseconds: 1_000_000_000) // 1 second
