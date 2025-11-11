@@ -195,34 +195,6 @@ struct ProjectMember: Identifiable, Codable, Hashable {
     }
 }
 
-// MARK: - User
-
-struct User: Identifiable, Codable, Hashable {
-    let id: String
-    let email: String
-    let firstName: String
-    let lastName: String
-    let company: String?
-    let avatarURL: URL?
-
-    var name: String {
-        "\(firstName) \(lastName)"
-    }
-
-    var initials: String {
-        let first = firstName.prefix(1)
-        let last = lastName.prefix(1)
-        return "\(first)\(last)".uppercased()
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case id, email, company
-        case firstName = "first_name"
-        case lastName = "last_name"
-        case avatarURL = "avatar_url"
-    }
-}
-
 // MARK: - Cached Permissions
 
 struct CachedPermissions: Codable {

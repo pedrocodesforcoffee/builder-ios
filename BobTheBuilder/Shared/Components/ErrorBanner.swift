@@ -110,16 +110,6 @@ struct ErrorBanner: View {
     }
 }
 
-// MARK: - API Error
-
-enum APIError: Error {
-    case unauthorized
-    case networkError
-    case serverError(String?)
-    case decodingError
-    case invalidResponse
-}
-
 // MARK: - Preview
 
 
