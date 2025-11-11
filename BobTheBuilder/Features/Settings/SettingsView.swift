@@ -11,11 +11,27 @@ import SwiftUI
 struct SettingsView: View {
     @StateObject private var navigationManager = NavigationPathManager.shared
     @StateObject private var coordinator = AppCoordinator.shared
+    @StateObject private var authManager = AuthManager.shared
+    @StateObject private var tokenManager = TokenManager.shared
     @State private var notificationsEnabled = true
-    @State private var biometricsEnabled = false
+    @State private var showLogoutConfirmation = false
     @State private var offlineModeEnabled = false
 
     var body: some View {
+        ProtectedView(requiresAuth: true) {
+            settingsContent
+        }
+        .alert("Sign Out", isPresented: $showLogoutConfirmation) {
+            Button("Cancel", role: .cancel) {}
+            Button("Sign Out", role: .destructive) {
+                coordinator.logout()
+            }
+        } message: {
+            Text("Are you sure you want to sign out?")
+        }
+    }
+
+    private var settingsContent: some View {
         List {
             // Profile Section
             Section {
@@ -23,17 +39,35 @@ struct SettingsView: View {
                     navigationManager.navigate(to: .profile)
                 }) {
                     HStack(spacing: 12) {
-                        Image(systemName: "person.circle.fill")
-                            .font(.system(size: 50))
-                            .foregroundColor(.blue)
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("John Doe")
-                                .font(.headline)
-                                .foregroundColor(.primary)
-                            Text("john.doe@example.com")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
+                        if let user = authManager.currentUser {
+                            UserAvatarView(user: user, size: 50)
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(user.fullName)
+                                    .font(.headline)
+                                    .foregroundColor(.primary)
+
+                                Text(user.email)
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+
+                                if let primaryRole = user.primaryRole {
+                                    RoleBadgeView(role: primaryRole, size: .small)
+                                        .padding(.top, 2)
+                                }
+                            }
+                        } else {
+                            Image(systemName: "person.circle.fill")
+                                .font(.system(size: 50))
+                                .foregroundColor(.gray)
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Loading...")
+                                    .font(.headline)
+                                    .foregroundColor(.secondary)
+                            }
                         }
+
                         Spacer()
                         Image(systemName: "chevron.right")
                             .font(.caption)
@@ -43,10 +77,38 @@ struct SettingsView: View {
                 }
             }
 
+            // Organizations Section
+            if let user = authManager.currentUser,
+               let organizations = user.organizations,
+               !organizations.isEmpty {
+                Section("Organizations") {
+                    ForEach(organizations, id: \.id) { org in
+                        HStack {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(org.name)
+                                    .font(.body)
+                                Text(org.formattedType)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                            Spacer()
+                            RoleBadgeView(role: org.role, size: .small)
+                        }
+                        .padding(.vertical, 4)
+                    }
+                }
+            }
+
             // Preferences Section
             Section("Preferences") {
                 Toggle("Push Notifications", isOn: $notificationsEnabled)
-                Toggle("Biometric Authentication", isOn: $biometricsEnabled)
+                Toggle("Biometric Authentication", isOn: $tokenManager.isBiometricEnabled)
+                    .onChange(of: tokenManager.isBiometricEnabled) { newValue in
+                        if !newValue {
+                            authManager.disableBiometric()
+                        }
+                        // Enabling biometric will be handled in login flow
+                    }
                 Toggle("Offline Mode", isOn: $offlineModeEnabled)
             }
 
@@ -126,7 +188,7 @@ struct SettingsView: View {
             // Account Section
             Section {
                 Button(action: {
-                    coordinator.logout()
+                    showLogoutConfirmation = true
                 }) {
                     HStack {
                         SettingsRow(
